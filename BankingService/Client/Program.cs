@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ServiceModel;
 
 namespace Client
 {
@@ -10,6 +7,15 @@ namespace Client
     {
         static void Main(string[] args)
         {
+            NetTcpBinding binding = new NetTcpBinding();
+            string address = "net.tcp://localhost:9999/BankingServices";
+
+            using (ClientProxy proxy = new ClientProxy(binding, address))
+            {
+                proxy.TestCall(10);
+            }
+
+            Console.ReadLine();
         }
     }
 }
