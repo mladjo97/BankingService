@@ -3,7 +3,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 
-namespace DatabaseLib
+namespace DatabaseLib.Classes
+
 {
     public class Request
     {

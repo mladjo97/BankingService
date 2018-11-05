@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
-namespace DatabaseLib
+namespace DatabaseLib.Classes
 {
     public class User
     {
@@ -13,21 +9,20 @@ namespace DatabaseLib
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public double Balance { get; set; }
-        public double Credit { get; set; }
+        [JsonProperty(ReferenceLoopHandling = ReferenceLoopHandling.Ignore, IsReference = true)]
+        public Account Account { get; set; }
 
         public User(string firstName, string lastName)
         {
             this.FirstName = firstName;
             this.LastName = lastName;
-            this.Balance = 0;
-            this.Credit = 0;
+            this.Account = new Account(0, 0) { Owner = this };
         }
 
         // cisto da bude lakse testirati 
         public override string ToString()
         {
-            return $"[UserInfo]: {FirstName} {LastName} - Balance: {Balance} / Credit: {Credit}";
+            return $"[UserInfo]: {FirstName} {LastName} - Balance: {Account.Balance} / Credit: {Account.Credit}";
         }
 
     }

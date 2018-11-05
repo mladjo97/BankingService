@@ -1,24 +1,30 @@
 ﻿using CommonStuff;
 using DatabaseLib;
+using DatabaseLib.Classes;
 using System;
 
 namespace BankingService
 {
     public class BankingServices : IUserServices
     {
-        public void TestCall(int num)
+        public bool OpenAccount(string firstName, string lastName)
         {
-            Console.WriteLine($"{num}");
+            // posto se u konstruktoru User napravi novi account - mozda treba izmeniti
+            User newUser = new User(firstName, lastName);
 
-            Request newRequest = new Request();
-            newRequest.User = new User("Mladen", "Milosevic");
-            newRequest.DateAndTime = DateTime.Now;
-            newRequest.IsProcessed = false;
-            newRequest.Action = RequestAction.OpenAccount;
+            // ako nije uspelo zbog neceg
+            if (newUser.Account == null)
+                return false;
 
-            RequestParser.WriteRequest(newRequest);
+            Request req = new Request();
+            req.DateAndTime = DateTime.Now;
+            req.Action = RequestAction.OpenAccount;
+            req.User = newUser;
+            req.IsProcessed = false;    // ovo posle mozemo promeniti iz sektora direktno ili ovde kad vrati odgovor
 
+            RequestParser.WriteRequest(req);
+
+            return true;
         }
-
     }
 }

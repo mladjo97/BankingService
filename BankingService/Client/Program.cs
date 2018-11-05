@@ -12,7 +12,10 @@ namespace Client
 
             using (ClientProxy proxy = new ClientProxy(binding, address))
             {
-                proxy.TestCall(10);
+                if (proxy.OpenAccount("Mladen", "Milosevic"))
+                    Console.WriteLine("Success! Account opened.");
+                else
+                    Console.WriteLine("Fail! Account was not opened.");
             }
 
             Console.ReadLine();

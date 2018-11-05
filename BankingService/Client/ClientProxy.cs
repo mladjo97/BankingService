@@ -1,10 +1,6 @@
 ﻿using CommonStuff;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Client
 {
@@ -17,16 +13,21 @@ namespace Client
             factory = this.CreateChannel();
         }
 
-        public void TestCall(int num)
+        public bool OpenAccount(string firstName, string lastName)
         {
+            bool result = false;
+
             try
             {
-                factory.TestCall(num);
+                result = factory.OpenAccount(firstName, lastName);
+                return result;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine($"Error in ClientProxy.TestCall(): {e.Message}");
             }
+
+            return result;
         }
 
     }

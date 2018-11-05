@@ -6,6 +6,6 @@ namespace CommonStuff
     public interface IUserServices
     {
         [OperationContract]
-        void TestCall(int num);
+        bool OpenAccount(string firstName, string lastName);
     }
 }
