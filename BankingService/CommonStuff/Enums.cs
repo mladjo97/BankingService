@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CommonStuff
+﻿namespace CommonStuff
 {
     public enum TransactionType
     {
-        DEPOSIT,
-        WITHDRAWAL
+        Deposit,
+        Withdrawal
     }
+
+    public enum RequestAction
+    {
+        OpenAccount,
+        TakeLoan,
+        Deposit,
+        Withdrawal
+    }
+
 }
