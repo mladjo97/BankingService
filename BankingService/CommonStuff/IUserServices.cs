@@ -3,15 +3,7 @@
 namespace CommonStuff
 {
     [ServiceContract]
-    public interface IUserServices
+    public interface IUserServices : IAccountServices, ICreditServices, ITransactionServices
     {
-        [OperationContract]
-        bool OpenAccount(string firstName, string lastName);
-
-        [OperationContract]
-        bool TakeLoan(double amount);
-
-        [OperationContract]
-        bool DoTransaction(TransactionType type, double amount);
     }
 }

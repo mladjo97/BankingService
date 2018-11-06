@@ -7,7 +7,17 @@ namespace DatabaseLib
 {
     public class AccountParser
     {
-        private static string accountDbPath = @"C:\Users\Mladjo\Desktop\accounts.json";     // ovo je samo test
+        private static string accountDbPath = @"C:\Users\Administrator\Desktop\BankingService\BankingService\accounts.json";     // ovo je samo test
+
+        public static void CreateDB()
+        {
+            // ukoliko nije vec napravljen .json fajl, onda napravi
+            if (!File.Exists(accountDbPath))
+            {
+                var fileCreate = File.CreateText(accountDbPath);
+                fileCreate.Close();
+            }
+        }
 
         public static void WriteAccount(Account newAccount)
         {
@@ -33,5 +43,19 @@ namespace DatabaseLib
             // i onda upise u .json
             File.WriteAllText(accountDbPath, jsonData);
         }
+
+        public static List<Request> GetRequests()
+        {
+            CreateDB();
+
+            // cita .json file
+            var jsonData = File.ReadAllText(requestDbPath);
+
+            // napravi listu Request objekata
+            var list = JsonConvert.DeserializeObject<List<Request>>(jsonData) ?? new List<Request>();
+
+            return list;
+        }
+
     }
 }

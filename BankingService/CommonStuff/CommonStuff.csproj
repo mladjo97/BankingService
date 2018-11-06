@@ -42,7 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
+    <Compile Include="IAccountServices.cs" />
     <Compile Include="IAdminServices.cs" />
+    <Compile Include="ICreditServices.cs" />
+    <Compile Include="ITransactionServices.cs" />
     <Compile Include="IUserServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

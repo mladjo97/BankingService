@@ -8,7 +8,7 @@ namespace DatabaseLib
 {
     public class RequestParser
     {
-        private static string requestDbPath = @"C:\Users\Mladjo\Desktop\requests.json";     // ovo je samo test
+        private static string requestDbPath = @"C:\Users\Administrator\Desktop\BankingService\BankingService\requests.json";     // ovo je samo test
 
         public static void CreateDB()
         {

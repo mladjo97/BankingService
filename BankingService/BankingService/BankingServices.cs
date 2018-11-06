@@ -5,7 +5,7 @@ using System;
 
 namespace BankingService
 {
-    public class BankingServices : IUserServices, IAdminServices
+    public class BankingServices : IUserServices
     {
         public bool OpenAccount(string firstName, string lastName)
         {
@@ -27,7 +27,6 @@ namespace BankingService
             RequestParser.WriteRequest(req);
 
             // ovo ispod treba ITSector da radi ali cisto test
-            // Koja je logika za novog korisnika ? imamo li login stranicu ili treba preko sertifikata da proverimo
 
             Account newAccount = new Account(0, 0) { Owner = newUser };
 
