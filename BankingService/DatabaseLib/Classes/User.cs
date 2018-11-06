@@ -7,10 +7,12 @@ namespace DatabaseLib.Classes
         // da li korisnik treba da poseduje PIN ili lozinku jer ionako radimo preko sertifikata njihovu autentifikaciju?
         // kako treba da korisnik pristupi servisima, da li je potreba lozinka ili moze cisto da pozove?
 
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
         [JsonProperty(ReferenceLoopHandling = ReferenceLoopHandling.Ignore, IsReference = true)]
         public Account Account { get; set; }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
 
         public User(string firstName, string lastName)
         {

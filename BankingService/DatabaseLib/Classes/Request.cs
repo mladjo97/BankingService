@@ -8,6 +8,7 @@ namespace DatabaseLib.Classes
 {
     public class Request
     {
+        public int ID { get; set; }
         public User User { get; set; }
         public DateTime DateAndTime { get; set; }
 

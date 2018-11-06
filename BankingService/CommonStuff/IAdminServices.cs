@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ServiceModel;
 
 namespace CommonStuff
 {
+    [ServiceContract]
     public interface IAdminServices
     {
+        [OperationContract]
+        void CreateDB();
+
+        [OperationContract]
+        void CheckRequests();
     }
 }

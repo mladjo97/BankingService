@@ -12,10 +12,22 @@ namespace DatabaseLib.Classes
         public double Balance { get; set; }
         public double Credit { get; set; }
 
+
+        public Account()
+        {
+            this.Balance = 0;
+            this.Credit = 0;
+        }
+
         public Account(double balance, double credit)
         {
             this.Balance = balance;
             this.Credit = credit;
+        }
+
+        public override string ToString()
+        {
+            return $"[AccountInfo] Owner: {Owner.FirstName} {Owner.LastName} / Balance: {Balance} / Credit: {Credit}";
         }
     }
 }
