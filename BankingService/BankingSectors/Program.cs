@@ -12,7 +12,8 @@ namespace BankingSectors
     {
         static void Main(string[] args)
         {
-            
+            OpenAccountServices();
+            Console.ReadLine();
         }
 
         static void OpenAccountServices()
