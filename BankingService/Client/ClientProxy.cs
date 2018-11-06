@@ -13,13 +13,13 @@ namespace Client
             factory = this.CreateChannel();
         }
 
-        public bool OpenAccount(string firstName, string lastName)
+        public bool OpenAccount(string username)
         {
             bool result = false;
 
             try
             {
-                result = factory.OpenAccount(firstName, lastName);
+                result = factory.OpenAccount(username);
                 Console.WriteLine($"OpenAccount() >> {result}");
                 return result;
             }
@@ -31,13 +31,13 @@ namespace Client
             return result;
         }
 
-        public bool TakeLoan(double amount)
+        public bool TakeLoan(string username,double amount)
         {
             bool result = false;
 
             try
             {
-                result = factory.TakeLoan(amount);
+                result = factory.TakeLoan(username,amount);
                 Console.WriteLine($"TakeLoan() >> {result}");
                 return result;
             }
@@ -49,13 +49,13 @@ namespace Client
             return result;
         }
 
-        public bool DoTransaction(TransactionType type, double amount)
+        public bool DoTransaction(string username,TransactionType type, double amount)
         {
             bool result = false;
 
             try
             {
-                result = factory.DoTransaction(type, amount);
+                result = factory.DoTransaction(username,type, amount);
                 Console.WriteLine($"DoTransaction() >> {result}");
                 return result;
             }

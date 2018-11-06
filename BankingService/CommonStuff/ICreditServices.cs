@@ -6,6 +6,6 @@ namespace CommonStuff
     public interface ICreditServices
     {
         [OperationContract]
-        bool TakeLoan(double amount);
+        bool TakeLoan(string username,double amount);
     }
 }

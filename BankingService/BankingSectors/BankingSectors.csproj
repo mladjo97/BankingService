@@ -45,8 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountServices.cs" />
+    <Compile Include="CreditServices.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransactionServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

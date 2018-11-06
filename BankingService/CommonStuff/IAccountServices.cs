@@ -6,6 +6,6 @@ namespace CommonStuff
     public interface IAccountServices
     {
         [OperationContract]
-        bool OpenAccount(string firstName, string lastName);
+        bool OpenAccount(string username);
     }
 }

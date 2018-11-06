@@ -6,6 +6,6 @@ namespace CommonStuff
     public interface ITransactionServices
     {
         [OperationContract]
-        bool DoTransaction(TransactionType type, double amount);
+        bool DoTransaction(string username,TransactionType type, double amount);
     }
 }

@@ -16,21 +16,14 @@ namespace BankingSectors
         
 
         
-        public bool OpenAccount(string firstName, string lastName)
+        public bool OpenAccount(string username)
         {
             IsFree = false;
            
-
             try
             {
-                Account newAccount = new Account() { ID = AccountParser.GetRandomID(), Balance = 0, Credit = 0 };
-                User newUser = new User(firstName, lastName) { Account = newAccount };
-                newAccount.Owner = newUser;
-
-                // ako nije uspelo zbog neceg
-                if (newUser.Account == null)
-                    return false;
-
+                Account newAccount = new Account(username) { ID = AccountParser.GetRandomID(), Balance = 0, Credit = 0 };
+                AccountParser.WriteAccount(newAccount);
 
             }
             catch (Exception)
@@ -38,8 +31,6 @@ namespace BankingSectors
 
                 return false;
             }
-            
-
 
             Thread.Sleep(5000);
             IsFree = true;

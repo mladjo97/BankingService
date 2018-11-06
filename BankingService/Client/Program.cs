@@ -17,19 +17,19 @@ namespace Client
             using (ClientProxy proxy = new ClientProxy(binding, address))
             {
                 // otvori racun
-                if (proxy.OpenAccount("Mladen", "Milosevic"))
+                if (proxy.OpenAccount("Mladen97"))
                     Console.WriteLine("Success! Account opened.");
                 else
                     Console.WriteLine("Fail! Account was not opened.");
 
                 // uzmi kredit
-                if(proxy.TakeLoan(5000))
+                if(proxy.TakeLoan("Mladen97",5000))
                     Console.WriteLine("Success! Loan taken.");
                 else
                     Console.WriteLine("Fail! Loan was not approved.");
 
                 // uplati novac
-                if(proxy.DoTransaction(TransactionType.Deposit, 3000))
+                if(proxy.DoTransaction("Mladen97",TransactionType.Deposit, 3000))
                     Console.WriteLine("Success! You deposited in your account.");
                 else
                     Console.WriteLine("Fail! You were unable to deposit in your account.");
