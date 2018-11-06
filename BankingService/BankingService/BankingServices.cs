@@ -7,6 +7,7 @@ namespace BankingService
 {
     public class BankingServices : IUserServices
     {
+
         public bool OpenAccount(string username)
         {
             
@@ -21,8 +22,6 @@ namespace BankingService
             RequestParser.WriteRequest(req);
 
             //pozivati proxy i proveravati u while()
-
-
 
 
             RequestParser.MarkProcessed(req.ID);    // ovo moramo nekako sklopiti kad napravimo odvojen servise radi ID
@@ -46,6 +45,7 @@ namespace BankingService
 
         public bool DoTransaction(string username,TransactionType type, double amount)
         {
+            // upise neobradjen zahtev
             Request req = new Request();
             req.ID = RequestParser.GetRandomID();
             req.DateAndTime = DateTime.Now;
@@ -58,6 +58,8 @@ namespace BankingService
                 req.Action = RequestAction.Withdrawal;
 
             RequestParser.WriteRequest(req);
+
+            // pozivanje transaction sektor servisa
 
             return true;
         }

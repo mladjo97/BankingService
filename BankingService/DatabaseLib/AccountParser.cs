@@ -72,6 +72,25 @@ namespace DatabaseLib
             return request;
         }
 
+        public static Account GetAccount(string owner)
+        {
+            CreateDB();
+
+            // cita .json file
+            var jsonData = File.ReadAllText(accountDbPath);
+
+            // napravi listu Request objekata
+            var list = JsonConvert.DeserializeObject<List<Account>>(jsonData) ?? new List<Account>();
+
+            Account returnAcc = new Account();
+
+            foreach (var account in list)
+                if (account.Owner == owner)
+                    returnAcc = account;
+
+            return returnAcc;
+        }
+
         public static void DeleteAccount(int id)
         {
             // ako nema db, nema ni brisanja
@@ -88,6 +107,35 @@ namespace DatabaseLib
             foreach (var acc in list)
             {
                 if (acc.ID == id)
+                {
+                    list.Remove(acc);
+                    break;
+                }
+            }
+
+            // zatim u Json pretvori listu, jer nam treba niz
+            jsonData = JsonConvert.SerializeObject(list, Newtonsoft.Json.Formatting.Indented);
+
+            // i onda upise u .json
+            File.WriteAllText(accountDbPath, jsonData);
+        }
+
+        public static void DeleteAccount(string owner)
+        {
+            // ako nema db, nema ni brisanja
+            if (!File.Exists(accountDbPath))
+                return;
+
+            // cita .json file
+            var jsonData = File.ReadAllText(accountDbPath);
+
+            // napravi listu Request objekata
+            var list = JsonConvert.DeserializeObject<List<Account>>(jsonData) ?? new List<Account>();
+
+            // ukloni zahtev
+            foreach (var acc in list)
+            {
+                if (acc.Owner == owner)
                 {
                     list.Remove(acc);
                     break;

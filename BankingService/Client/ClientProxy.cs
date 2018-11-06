@@ -31,7 +31,7 @@ namespace Client
             return result;
         }
 
-        public bool TakeLoan(string username,double amount)
+        public bool TakeLoan(string username, double amount)
         {
             bool result = false;
 
@@ -49,13 +49,13 @@ namespace Client
             return result;
         }
 
-        public bool DoTransaction(string username,TransactionType type, double amount)
+        public bool DoTransaction(string username, TransactionType type, double amount)
         {
             bool result = false;
 
             try
             {
-                result = factory.DoTransaction(username,type, amount);
+                result = factory.DoTransaction(username, type, amount);
                 Console.WriteLine($"DoTransaction() >> {result}");
                 return result;
             }
