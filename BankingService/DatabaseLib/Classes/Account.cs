@@ -9,6 +9,7 @@ namespace DatabaseLib.Classes
 
         [JsonProperty(ReferenceLoopHandling = ReferenceLoopHandling.Ignore, IsReference = true)]
         public User Owner { get; set; }
+        public int ID { get; set; }
         public double Balance { get; set; }
         public double Credit { get; set; }
 

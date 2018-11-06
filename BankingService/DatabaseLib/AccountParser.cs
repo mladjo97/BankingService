@@ -1,5 +1,6 @@
 ﻿using DatabaseLib.Classes;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -21,13 +22,8 @@ namespace DatabaseLib
 
         public static void WriteAccount(Account newAccount)
         {
-            // ukoliko nije vec napravljen .json fajl, onda napravi
-            if (!File.Exists(accountDbPath))
-            {
-                var fileCreate = File.CreateText(accountDbPath);
-                fileCreate.Close();
-            }
-
+            CreateDB();
+            
             // cita .json file
             var jsonData = File.ReadAllText(accountDbPath);
 
@@ -44,17 +40,92 @@ namespace DatabaseLib
             File.WriteAllText(accountDbPath, jsonData);
         }
 
-        public static List<Request> GetRequests()
+        public static List<Account> GetAccounts()
         {
             CreateDB();
 
             // cita .json file
-            var jsonData = File.ReadAllText(requestDbPath);
+            var jsonData = File.ReadAllText(accountDbPath);
 
             // napravi listu Request objekata
-            var list = JsonConvert.DeserializeObject<List<Request>>(jsonData) ?? new List<Request>();
+            var list = JsonConvert.DeserializeObject<List<Account>>(jsonData) ?? new List<Account>();
 
             return list;
+        }
+
+        public static Account GetAccount(int id)
+        {
+            CreateDB();
+
+            // cita .json file
+            var jsonData = File.ReadAllText(accountDbPath);
+
+            // napravi listu Request objekata
+            var list = JsonConvert.DeserializeObject<List<Account>>(jsonData) ?? new List<Account>();
+
+            Account request = new Account();
+
+            foreach (var req in list)
+                if (req.ID == id)
+                    request = req;
+
+            return request;
+        }
+
+        public static void DeleteAccount(int id)
+        {
+            // ako nema db, nema ni brisanja
+            if (!File.Exists(accountDbPath))
+                return;
+
+            // cita .json file
+            var jsonData = File.ReadAllText(accountDbPath);
+
+            // napravi listu Request objekata
+            var list = JsonConvert.DeserializeObject<List<Account>>(jsonData) ?? new List<Account>();
+
+            // ukloni zahtev
+            foreach (var acc in list)
+            {
+                if (acc.ID == id)
+                {
+                    list.Remove(acc);
+                    break;
+                }
+            }
+
+            // zatim u Json pretvori listu, jer nam treba niz
+            jsonData = JsonConvert.SerializeObject(list, Newtonsoft.Json.Formatting.Indented);
+
+            // i onda upise u .json
+            File.WriteAllText(accountDbPath, jsonData);
+        }
+
+        public static int GetRandomID()
+        {
+            var list = GetAccounts();
+
+            bool existsID = false;
+            Random rand = new Random();
+            int randomID = rand.Next(1000, 10000);
+
+            if (list.Count == 0)
+                return randomID;
+
+            do
+            {
+                existsID = false;
+                randomID = rand.Next(1000, 10000);
+
+                foreach (var acc in list)
+                {
+                    if (acc.ID == randomID)
+                        existsID = true;
+                }
+
+            } while (existsID == true);
+
+            return randomID;
         }
 
     }

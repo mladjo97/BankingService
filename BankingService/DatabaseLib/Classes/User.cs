@@ -4,9 +4,6 @@ namespace DatabaseLib.Classes
 {
     public class User
     {
-        // da li korisnik treba da poseduje PIN ili lozinku jer ionako radimo preko sertifikata njihovu autentifikaciju?
-        // kako treba da korisnik pristupi servisima, da li je potreba lozinka ili moze cisto da pozove?
-
         [JsonProperty(ReferenceLoopHandling = ReferenceLoopHandling.Ignore, IsReference = true)]
         public Account Account { get; set; }
 
@@ -17,8 +14,7 @@ namespace DatabaseLib.Classes
         public User(string firstName, string lastName)
         {
             this.FirstName = firstName;
-            this.LastName = lastName;
-            this.Account = new Account(0, 0) { Owner = this };
+            this.LastName = lastName;            
         }
 
         // cisto da bude lakse testirati 

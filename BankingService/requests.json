@@ -1,96 +1,40 @@
 [
   {
-    "ID": 7262,
+    "ID": 5615,
     "User": {
       "Account": {
         "$id": "1",
         "Owner": null,
+        "ID": 5615,
         "Balance": 0.0,
         "Credit": 0.0
       },
       "FirstName": "Mladen",
       "LastName": "Milosevic"
     },
-    "DateAndTime": "2018-11-06T14:08:26.1041292+01:00",
+    "DateAndTime": "2018-11-06T15:18:37.8460486+01:00",
     "Action": "OpenAccount",
     "IsProcessed": true
   },
   {
-    "ID": 1037,
+    "ID": 2548,
     "User": {
-      "Account": {
-        "$id": "2",
-        "Owner": null,
-        "Balance": 0.0,
-        "Credit": 0.0
-      },
+      "Account": null,
       "FirstName": "Mladen",
       "LastName": "Milosevic"
     },
-    "DateAndTime": "2018-11-06T14:08:26.260301+01:00",
+    "DateAndTime": "2018-11-06T15:18:37.9830449+01:00",
     "Action": "TakeLoan",
     "IsProcessed": false
   },
   {
-    "ID": 1571,
+    "ID": 5937,
     "User": {
-      "Account": {
-        "$id": "3",
-        "Owner": null,
-        "Balance": 0.0,
-        "Credit": 0.0
-      },
+      "Account": null,
       "FirstName": "Mladen",
       "LastName": "Milosevic"
     },
-    "DateAndTime": "2018-11-06T14:08:26.260301+01:00",
-    "Action": "Deposit",
-    "IsProcessed": false
-  },
-  {
-    "ID": 2521,
-    "User": {
-      "Account": {
-        "$id": "4",
-        "Owner": null,
-        "Balance": 0.0,
-        "Credit": 0.0
-      },
-      "FirstName": "Mladen",
-      "LastName": "Milosevic"
-    },
-    "DateAndTime": "2018-11-06T14:29:52.6781435+01:00",
-    "Action": "OpenAccount",
-    "IsProcessed": true
-  },
-  {
-    "ID": 9637,
-    "User": {
-      "Account": {
-        "$id": "5",
-        "Owner": null,
-        "Balance": 0.0,
-        "Credit": 0.0
-      },
-      "FirstName": "Mladen",
-      "LastName": "Milosevic"
-    },
-    "DateAndTime": "2018-11-06T14:29:52.7291485+01:00",
-    "Action": "TakeLoan",
-    "IsProcessed": false
-  },
-  {
-    "ID": 4248,
-    "User": {
-      "Account": {
-        "$id": "6",
-        "Balance": 0.0,
-        "Credit": 0.0
-      },
-      "FirstName": "Mladen",
-      "LastName": "Milosevic"
-    },
-    "DateAndTime": "2018-11-06T14:29:52.7341449+01:00",
+    "DateAndTime": "2018-11-06T15:18:37.9870483+01:00",
     "Action": "Deposit",
     "IsProcessed": false
   }

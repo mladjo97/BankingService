@@ -9,8 +9,10 @@ namespace BankingService
     {
         public bool OpenAccount(string firstName, string lastName)
         {
-            // posto se u konstruktoru User napravi novi account - mozda treba izmeniti
-            User newUser = new User(firstName, lastName);
+            
+            Account newAccount = new Account() { ID = AccountParser.GetRandomID() };
+            User newUser = new User(firstName, lastName) { Account = newAccount };
+            newAccount.Owner = newUser;
 
             // ako nije uspelo zbog neceg
             if (newUser.Account == null)
@@ -26,9 +28,7 @@ namespace BankingService
 
             RequestParser.WriteRequest(req);
 
-            // ovo ispod treba ITSector da radi ali cisto test
-
-            Account newAccount = new Account(0, 0) { Owner = newUser };
+            // ovo ispod treba ITSector da radi ali cisto test 
 
             AccountParser.WriteAccount(newAccount);
 
