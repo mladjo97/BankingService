@@ -7,7 +7,11 @@ namespace BankingService
 {
     public class BankingServices : IUserServices
     {
+<<<<<<< HEAD
 
+=======
+        private ServiceProxy serviceProxy = new ServiceProxy();
+>>>>>>> 3cce1e926fd54048aebee4ccc7c64a0610f1c428
         public bool OpenAccount(string username)
         {
             
@@ -23,6 +27,12 @@ namespace BankingService
 
             //pozivati proxy i proveravati u while()
 
+<<<<<<< HEAD
+=======
+            //vraca bool
+            serviceProxy.AccountProxy.OpenAccount(username);
+
+>>>>>>> 3cce1e926fd54048aebee4ccc7c64a0610f1c428
 
             RequestParser.MarkProcessed(req.ID);    // ovo moramo nekako sklopiti kad napravimo odvojen servise radi ID
 

@@ -46,11 +46,16 @@
     <Compile Include="BankingServices.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BankingSectors\BankingSectors.csproj">
+      <Project>{186C1CF9-9A86-4697-9790-0ADB30AD29CC}</Project>
+      <Name>BankingSectors</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommonStuff\CommonStuff.csproj">
       <Project>{d6e4534d-6a82-4ee5-9f7a-82ddaee160a5}</Project>
       <Name>CommonStuff</Name>
