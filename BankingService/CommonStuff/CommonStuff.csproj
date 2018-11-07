@@ -42,12 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
-    <Compile Include="IAccountServices.cs" />
-    <Compile Include="IAdminServices.cs" />
-    <Compile Include="ICreditServices.cs" />
-    <Compile Include="IStatusFree.cs" />
-    <Compile Include="ITransactionServices.cs" />
-    <Compile Include="IUserServices.cs" />
+    <Compile Include="SectorContracts\IAccountServices.cs" />
+    <Compile Include="ClientContracts\IAdminServices.cs" />
+    <Compile Include="SectorContracts\ICreditServices.cs" />
+    <Compile Include="SectorContracts\IStatusFree.cs" />
+    <Compile Include="SectorContracts\ITransactionServices.cs" />
+    <Compile Include="ClientContracts\IUserServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

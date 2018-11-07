@@ -1,9 +1,9 @@
 ﻿using System.ServiceModel;
 
-namespace CommonStuff
+namespace CommonStuff.SectorContracts
 {
     [ServiceContract]
-    public interface ITransactionServices
+    public interface ITransactionServices : IStatusFree
     {
         [OperationContract]
         bool DoTransaction(string username, TransactionType type, double amount);

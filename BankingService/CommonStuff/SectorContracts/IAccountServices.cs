@@ -1,9 +1,9 @@
 ﻿using System.ServiceModel;
 
-namespace CommonStuff
+namespace CommonStuff.SectorContracts
 {
     [ServiceContract]
-    public interface IAccountServices
+    public interface IAccountServices : IStatusFree
     {
         [OperationContract]
         bool OpenAccount(string username);

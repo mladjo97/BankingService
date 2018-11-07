@@ -1,17 +1,16 @@
 ﻿using CommonStuff;
+using CommonStuff.ClientContract;
 using DatabaseLib;
 using DatabaseLib.Classes;
 using System;
+using System.Threading;
 
 namespace BankingService
 {
     public class BankingServices : IUserServices
     {
-<<<<<<< HEAD
+        private SectorProxy sectorProxy = new SectorProxy();
 
-=======
-        private ServiceProxy serviceProxy = new ServiceProxy();
->>>>>>> 3cce1e926fd54048aebee4ccc7c64a0610f1c428
         public bool OpenAccount(string username)
         {
             
@@ -26,13 +25,9 @@ namespace BankingService
             RequestParser.WriteRequest(req);
 
             //pozivati proxy i proveravati u while()
-
-<<<<<<< HEAD
-=======
             //vraca bool
-            serviceProxy.AccountProxy.OpenAccount(username);
+            sectorProxy.AccountProxy.OpenAccount(username);
 
->>>>>>> 3cce1e926fd54048aebee4ccc7c64a0610f1c428
 
             RequestParser.MarkProcessed(req.ID);    // ovo moramo nekako sklopiti kad napravimo odvojen servise radi ID
 
@@ -70,8 +65,17 @@ namespace BankingService
             RequestParser.WriteRequest(req);
 
             // pozivanje transaction sektor servisa
+            while (!sectorProxy.TransactionProxy.IsItFree())
+            {
+                Console.WriteLine("TransactionSector is not available currently.");
+                Thread.Sleep(2000);
+            }
 
-            return true;
+            bool transactionResult = sectorProxy.TransactionProxy.DoTransaction(username, type, amount);
+
+            RequestParser.MarkProcessed(req.ID);    // posto je on fakticki obradjen, al moze li biti neuspelo?
+
+            return transactionResult;
         }
 
     }

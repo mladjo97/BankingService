@@ -1,6 +1,6 @@
 ﻿using System.ServiceModel;
 
-namespace CommonStuff
+namespace CommonStuff.ClientContract
 {
     [ServiceContract]
     public interface IAdminServices

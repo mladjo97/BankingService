@@ -1,10 +1,7 @@
-﻿using CommonStuff;
+﻿using CommonStuff.SectorContracts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
+using System.ServiceModel.Description;
 
 namespace BankingSectors
 {
@@ -13,6 +10,10 @@ namespace BankingSectors
         static void Main(string[] args)
         {
             OpenAccountServices();
+            OpenCreditServices();
+            OpenTransactionServices();
+
+            Console.WriteLine("All sector services have started.");
             Console.ReadLine();
         }
 
@@ -28,8 +29,8 @@ namespace BankingSectors
             ServiceHost host = new ServiceHost(typeof(AccountServices));
             host.AddServiceEndpoint(typeof(IAccountServices), binding, address);
 
-            //host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
-            //host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+            host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
+            host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
 
             host.Open();
         }
@@ -46,8 +47,8 @@ namespace BankingSectors
             ServiceHost host = new ServiceHost(typeof(TransactionServices));
             host.AddServiceEndpoint(typeof(ITransactionServices), binding, address);
 
-            //host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
-            //host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+            host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
+            host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
 
             host.Open();
         }
@@ -66,8 +67,8 @@ namespace BankingSectors
             ServiceHost host = new ServiceHost(typeof(CreditServices));
             host.AddServiceEndpoint(typeof(ICreditServices), binding, address);
 
-            //host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
-            //host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+            host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
+            host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
 
             host.Open();
         }

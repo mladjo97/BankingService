@@ -1,9 +1,9 @@
 ﻿using System.ServiceModel;
 
-namespace CommonStuff
+namespace CommonStuff.SectorContracts
 {
     [ServiceContract]
-    public interface ICreditServices
+    public interface ICreditServices : IStatusFree
     {
         [OperationContract]
         bool TakeLoan(string username,double amount);

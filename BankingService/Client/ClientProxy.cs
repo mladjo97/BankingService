@@ -1,4 +1,5 @@
 ﻿using CommonStuff;
+using CommonStuff.ClientContract;
 using System;
 using System.ServiceModel;
 

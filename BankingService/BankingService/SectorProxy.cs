@@ -1,25 +1,18 @@
-﻿using BankingSectors;
-using CommonStuff;
+﻿using CommonStuff.SectorContracts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BankingService
 {
 
-    public class ServiceProxy
+    public class SectorProxy
     {
-        
-        
 
         public ITransactionServices TransactionProxy { get; set; }
         public ICreditServices CreditProxy { get; set; }
         public IAccountServices AccountProxy { get; set; }
 
-        public ServiceProxy()
+        public SectorProxy()
         {
             OpenAccountProxy();
             OpenTransactionProxy();
@@ -38,16 +31,14 @@ namespace BankingService
                 binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
 
                 TransactionProxy = new ChannelFactory<ITransactionServices>(binding, new EndpointAddress(new Uri(address))).CreateChannel();
-
             }
             catch (Exception)
             {
-
                 throw;
             }
-            
 
-            
+
+
         }
         private void OpenCreditProxy()
         {
@@ -61,11 +52,9 @@ namespace BankingService
                 binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
 
                 CreditProxy = new ChannelFactory<ICreditServices>(binding, new EndpointAddress(new Uri(address))).CreateChannel();
-
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -81,11 +70,9 @@ namespace BankingService
                 binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
 
                 AccountProxy = new ChannelFactory<IAccountServices>(binding, new EndpointAddress(new Uri(address))).CreateChannel();
-
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
