@@ -3,6 +3,7 @@ using CommonStuff.ClientContract;
 using DatabaseLib;
 using DatabaseLib.Classes;
 using System;
+using System.Collections;
 using System.Threading;
 
 namespace BankingService
@@ -10,6 +11,7 @@ namespace BankingService
     public class BankingServices : IUserServices
     {
         private SectorProxy sectorProxy = new SectorProxy();
+        private static Queue accountQueue = new Queue();
 
         public bool OpenAccount(string username)
         {
@@ -25,13 +27,31 @@ namespace BankingService
             RequestParser.WriteRequest(req);
 
             //pozivati proxy i proveravati u while()
-            //vraca bool
-            sectorProxy.AccountProxy.OpenAccount(username);
 
+            accountQueue.Enqueue(username);            
+
+            while (true)
+            {
+                Thread.Sleep(1000);
+
+                Console.WriteLine("TransactionSector is not available currently.");
+
+                string next = (string)accountQueue.Peek();
+                bool free = sectorProxy.AccountProxy.IsItFree();
+
+                Console.WriteLine($"{username}: free:{free} / next:{next}");
+
+                if (free && next == username)
+                    break;
+                
+            }            
+
+            bool accountResult = sectorProxy.AccountProxy.OpenAccount(username);
+            accountQueue.Dequeue();
 
             RequestParser.MarkProcessed(req.ID);    // ovo moramo nekako sklopiti kad napravimo odvojen servise radi ID
 
-            return true;
+            return accountResult;
         }
 
         public bool TakeLoan(string username,double amount)

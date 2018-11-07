@@ -8,7 +8,7 @@ namespace DatabaseLib
 {
     public class AccountParser
     {
-        private static string accountDbPath = @"C:\Users\Mladjo\Desktop\BankingService\BankingService\accounts.json";     // ovo je samo test
+        private static string accountDbPath = @"C:\Users\Administrator\Desktop\BankingService\BankingService\accounts.json";     // ovo je samo test
 
         public static void CreateDB()
         {

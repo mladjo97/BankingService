@@ -10,12 +10,11 @@ namespace BankingSectors
     {
         public static bool IsFree = true; //
         
-
-        
         public bool OpenAccount(string username)
-        {
+        {            
             IsFree = false;
-           
+            Thread.Sleep(10000);
+
             try
             {
                 Account newAccount = new Account(username) { ID = AccountParser.GetRandomID(), Balance = 0, Credit = 0 };
@@ -24,11 +23,10 @@ namespace BankingSectors
             }
             catch (Exception)
             {
-
                 return false;
             }
-
-            Thread.Sleep(5000);
+           
+            
             IsFree = true;
 
             return true; // proslo je sve kako treba
