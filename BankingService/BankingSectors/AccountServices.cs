@@ -6,28 +6,26 @@ using System.Threading;
 
 namespace BankingSectors
 {
-    public class AccountServices : IAccountServices,IStatusFree
+    public class AccountServices : IAccountServices, IStatusFree
     {
-        public static bool IsFree = true; //
-        
+        public static bool IsFree = true;
+
         public bool OpenAccount(string username)
-        {            
+        {
             IsFree = false;
-            Thread.Sleep(10000);
 
             try
             {
                 Account newAccount = new Account(username) { ID = AccountParser.GetRandomID(), Balance = 0, Credit = 0 };
                 AccountParser.WriteAccount(newAccount);
-
             }
             catch (Exception)
             {
                 return false;
             }
-           
-            
-            IsFree = true;
+
+            Thread.Sleep(10000);
+            IsFree = true;            
 
             return true; // proslo je sve kako treba
         }
