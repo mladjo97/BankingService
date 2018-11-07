@@ -10,7 +10,7 @@ namespace BankingSectors
     {
         public static bool IsFree = true; 
 
-        public bool DoTransaction(string username,TransactionType type, double amount)
+        public bool DoTransaction(string username, TransactionType type, double amount)
         {
             IsFree = false;
 
