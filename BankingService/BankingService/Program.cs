@@ -1,31 +1,58 @@
 ﻿using CommonStuff.ClientContract;
 using System;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 
 namespace BankingService
 {
     class Program
     {
+        private static ServiceHost clientServiceHost;
+        private static ServiceHost adminServiceHost;
+
         static void Main(string[] args)
+        {
+            StartClientServices();
+            StartAdminServices();
+
+            Console.WriteLine("Press <enter> to stop service...");
+
+            Console.ReadLine();
+            clientServiceHost.Close();
+            adminServiceHost.Close();
+        }
+
+        static void StartClientServices()
         {
             NetTcpBinding binding = new NetTcpBinding();
             string address = "net.tcp://localhost:9999/BankingServices";
 
-            ServiceHost host = new ServiceHost(typeof(BankingServices));
-            host.AddServiceEndpoint(typeof(IUserServices), binding, address);
+            clientServiceHost = new ServiceHost(typeof(BankingServices));
+            clientServiceHost.AddServiceEndpoint(typeof(IUserServices), binding, address);
 
-            //host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
-            //host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+            clientServiceHost.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
+            clientServiceHost.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
 
-            host.Open();
+            clientServiceHost.Open();
 
             Console.WriteLine("BankingServices service is started.");
-            Console.WriteLine("Press <enter> to stop service...");
-
-            Console.ReadLine();
-            host.Close();
-
         }
-        
+
+        static void StartAdminServices()
+        {
+            NetTcpBinding binding = new NetTcpBinding();
+            string address = "net.tcp://localhost:9998/AdminServices";
+
+            adminServiceHost = new ServiceHost(typeof(AdminServices));
+            adminServiceHost.AddServiceEndpoint(typeof(IAdminServices), binding, address);
+
+            adminServiceHost.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
+            adminServiceHost.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+
+            adminServiceHost.Open();
+
+            Console.WriteLine("AdminServices service is started.");
+        }
+
     }
 }

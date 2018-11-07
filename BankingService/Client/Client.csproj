@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminProxy.cs" />
     <Compile Include="ClientProxy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,6 +55,10 @@
     <ProjectReference Include="..\CommonStuff\CommonStuff.csproj">
       <Project>{d6e4534d-6a82-4ee5-9f7a-82ddaee160a5}</Project>
       <Name>CommonStuff</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DatabaseLib\DatabaseLib.csproj">
+      <Project>{8F6BDB88-6E72-459E-8088-92F28520CE1E}</Project>
+      <Name>DatabaseLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

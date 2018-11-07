@@ -24,7 +24,7 @@ namespace BankingSectors
                 return false;
             }
 
-            Thread.Sleep(10000);
+            Thread.Sleep(5000);
             IsFree = true;            
 
             return true; // proslo je sve kako treba

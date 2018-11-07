@@ -1,18 +1,34 @@
 ﻿using CommonStuff.SectorContracts;
-using System;
+using DatabaseLib;
+using System.Threading;
 
 namespace BankingSectors
 {
     public class CreditServices : ICreditServices, IStatusFree
     {
+        private static bool IsFree = true;
+
         public bool IsItFree()
         {
-            throw new NotImplementedException();
+            return IsFree;
         }
 
         public bool TakeLoan(string username,double amount)
         {
-            throw new NotImplementedException();
+            IsFree = false;
+
+            var account = AccountParser.GetAccount(username);
+            if (account == null)
+                return false;
+
+            account.Credit += amount;
+
+            AccountParser.DeleteAccount(username);
+            AccountParser.WriteAccount(account);
+
+            Thread.Sleep(5000);
+            IsFree = true;
+            return true;
         }
     }
 }
