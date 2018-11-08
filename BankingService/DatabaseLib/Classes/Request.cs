@@ -15,7 +15,8 @@ namespace DatabaseLib.Classes
         [JsonConverter(typeof(StringEnumConverter))]
         public RequestAction Action { get; set; }
         public bool IsProcessed { get; set; }
-        
-        public Request() { ID = 0; }
+        public bool InProcess { get; set; }
+
+        public Request() { }
     }
 }

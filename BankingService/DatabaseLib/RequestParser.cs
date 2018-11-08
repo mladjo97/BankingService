@@ -115,6 +115,26 @@ namespace DatabaseLib
             WriteRequest(request);
         }
 
+        public static void MarkInProcess(int id)
+        {
+            var request = GetRequest(id);
+
+            request.InProcess = true;
+
+            DeleteRequest(id);
+            WriteRequest(request);
+        }
+
+        public static void FinishProcess(int id)
+        {
+            var request = GetRequest(id);
+
+            request.InProcess = false;
+
+            DeleteRequest(id);
+            WriteRequest(request);
+        }
+
 
         public static int GetRandomID()
         {

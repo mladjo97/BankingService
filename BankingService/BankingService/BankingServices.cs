@@ -26,6 +26,7 @@ namespace BankingService
             req.Action = RequestAction.OpenAccount;
             req.User = username;
             req.IsProcessed = false;    // ovo posle mozemo promeniti iz sektora direktno ili ovde kad vrati odgovor
+            req.InProcess = false;
 
             RequestParser.WriteRequest(req);
             
@@ -33,9 +34,7 @@ namespace BankingService
             accountQueue.Enqueue(username);            
 
             while (true)
-            {
-                Thread.Sleep(1000);
-
+            {              
                 Console.WriteLine("AccountSector is not available currently.");
 
                 string next = (string)accountQueue.Peek();
@@ -45,13 +44,17 @@ namespace BankingService
 
                 if (free && next == username)
                     break;
-                
+
+                Thread.Sleep(1000);
             }
 
             // da li postoji zahtev 
             bool stillExists = RequestExists(req.ID);
             if (!stillExists)
                 return false;
+
+            // trenutno obradjujemo, ne brisi
+            RequestParser.MarkInProcess(req.ID);
 
             // posaljemo ga kad se oslobodi i dodje njegov red
             bool accountResult = sectorProxy.AccountProxy.OpenAccount(username);
@@ -70,6 +73,7 @@ namespace BankingService
             req.Action = RequestAction.TakeLoan;
             req.User = username;
             req.IsProcessed = false;
+            req.InProcess = false;
 
             RequestParser.WriteRequest(req);
 
@@ -112,6 +116,7 @@ namespace BankingService
             req.DateAndTime = DateTime.Now;
             req.User = username;
             req.IsProcessed = false;
+            req.InProcess = false;
 
             if (type == TransactionType.Deposit)
                 req.Action = RequestAction.Deposit;

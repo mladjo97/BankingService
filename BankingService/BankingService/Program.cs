@@ -1,5 +1,6 @@
 ﻿using CommonStuff.ClientContract;
 using System;
+using System.Diagnostics;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 
@@ -14,6 +15,9 @@ namespace BankingService
         {
             StartClientServices();
             StartAdminServices();
+
+            // pokreni BankingSector
+            Process.Start(@"C:\Users\Administrator\Desktop\BankingService\BankingService\BankingSectors\bin\Debug\BankingSectors.exe");
 
             Console.WriteLine("Press <enter> to stop service...");
 

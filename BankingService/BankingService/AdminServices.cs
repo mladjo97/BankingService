@@ -12,23 +12,27 @@ namespace BankingService
             // Ovde ce samo jednom da proveri, ne bi trebalo ovde staviti while, nego kod clienta
 
             // uzmemo sve zahteve i proveravamo na svakih 10 sekundi da li ima zastarelih
-            Console.WriteLine("Checking database for old request ... ");
+            //Console.WriteLine("Checking database for old request ... ");
 
             var allRequests = RequestParser.GetRequests();
             foreach (var request in allRequests)
             {
-                if (!request.IsProcessed)
+                if (!request.IsProcessed && !request.InProcess)
                 {
                     TimeSpan time = DateTime.Now.Subtract(request.DateAndTime);
-                    if (time.Seconds > 2)
+
+                    Console.WriteLine($"{request.ID} - {request.User} time: {time.Seconds}");
+
+                    if (time.Seconds > 5)
                     {
-                        Console.WriteLine($"Request {request.ID} was older than 10 seconds. Deleting it ...");
+                        Console.WriteLine($"Request {request.ID} was older than 5 seconds. Deleting it ...");
                         RequestParser.DeleteRequest(request.ID);
                         Console.WriteLine($"Request {request.ID} deleted.");
                     }
                 }
             }
-            Thread.Sleep(500);
+
+            Thread.Sleep(1000);
         }
 
         public void CreateDB()
