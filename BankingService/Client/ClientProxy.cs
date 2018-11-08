@@ -10,9 +10,10 @@ namespace Client
     {
         IUserServices factory;
 
-        public ClientProxy(NetTcpBinding binding, EndpointAddress address) : base(binding, address)
+        public ClientProxy(NetTcpBinding binding, EndpointAddress address, X509Certificate2 cert) : base(binding, address)
         {
             this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
+            this.Credentials.ClientCertificate.Certificate = cert;
             factory = this.CreateChannel();
         }
 

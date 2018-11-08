@@ -27,10 +27,10 @@ namespace Client
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
             /// uzmemo sertifikat servisa
-            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
+            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, srvCertCN);
 
-            EndpointAddress adminAddress = new EndpointAddress(new Uri("net.tcp://localhost:9998/AdminServices"), new X509CertificateEndpointIdentity(srvCert));
-            EndpointAddress clientAddress = new EndpointAddress(new Uri("net.tcp://localhost:9999/BankingServices"), new X509CertificateEndpointIdentity(srvCert));
+            EndpointAddress adminAddress = new EndpointAddress(new Uri("net.tcp://172.28.250.1:9998/AdminServices"), new X509CertificateEndpointIdentity(srvCert));
+            EndpointAddress clientAddress = new EndpointAddress(new Uri("net.tcp://10.1.212.155:9999/BankingServices"), new X509CertificateEndpointIdentity(srvCert));
 
 
             while (check)
@@ -60,7 +60,7 @@ namespace Client
                             }
                             catch (Exception e)
                             {
-                                Console.WriteLine("Error: {0}",e);
+                                Console.WriteLine("Error: {0}",e.Message);
                                 break;
                             }
                         }
@@ -92,21 +92,30 @@ namespace Client
 
                     if (operation == 1)
                     {
-                        using (ClientProxy proxy = new ClientProxy(binding, clientAddress))
+                        try
                         {
-                            // postavi sertifikat
-                            proxy.Credentials.ClientCertificate.Certificate = clientCert;
+                            using (ClientProxy proxy = new ClientProxy(binding, clientAddress, clientCert))
+                            {
 
-                            // otvori racun                
-                            if (proxy.OpenAccount(username))
-                                Console.WriteLine("Success! Account opened.");
-                            else
-                                Console.WriteLine("Fail! Account was not opened.");
+                                
+                                // otvori racun                
+                                if (proxy.OpenAccount(username))
+                                    Console.WriteLine("Success! Account opened.");
+                                else
+                                    Console.WriteLine("Fail! Account was not opened.");
+                            }
                         }
+                        catch (Exception e)
+                        {
+
+                            Console.WriteLine("Error, {0}",e.Message);
+                            
+                        }
+                        
                     }
                     else if (operation == 2)
                     {
-                        using (ClientProxy proxy = new ClientProxy(binding, clientAddress))
+                        using (ClientProxy proxy = new ClientProxy(binding, clientAddress,clientCert))
                         {
                             // Credit
                             Console.WriteLine("Enter the amount you want:");
@@ -120,7 +129,7 @@ namespace Client
 
                     else 
                     {
-                        using (ClientProxy proxy = new ClientProxy(binding, clientAddress))
+                        using (ClientProxy proxy = new ClientProxy(binding, clientAddress,clientCert))
                         {
                             // Transakcija ( Uplata / Isplata)
                             Console.WriteLine("Enter the amount you want:");
