@@ -8,7 +8,7 @@ namespace DatabaseLib
 {
     public class AccountParser
     {
-        private static string accountDbPath = @"C:\Users\Administrator\Desktop\BankingService\BankingService\accounts.json";     // ovo je samo test
+        private static string accountDbPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\accounts.json"));
 
         public static void CreateDB()
         {

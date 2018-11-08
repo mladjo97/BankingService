@@ -61,6 +61,7 @@ namespace BankingService
             accountQueue.Dequeue();
 
             RequestParser.MarkProcessed(req.ID);    // ovo moramo nekako sklopiti kad napravimo odvojen servise radi ID
+            RequestParser.FinishProcess(req.ID);
 
             return accountResult;
         }
@@ -99,11 +100,15 @@ namespace BankingService
             if (!stillExists)
                 return false;
 
+            // trenutno obradjujemo, ne brisi
+            RequestParser.MarkInProcess(req.ID);
+
             // posaljemo ga kad se oslobodi i dodje njegov red
             bool creditResult = sectorProxy.CreditProxy.TakeLoan(username, amount);
             creditQueue.Dequeue();
 
             RequestParser.MarkProcessed(req.ID);    // ovo moramo nekako sklopiti kad napravimo odvojen servise radi ID
+            RequestParser.FinishProcess(req.ID);
 
             return creditResult;
         }
@@ -147,11 +152,15 @@ namespace BankingService
             if (!stillExists)
                 return false;
 
+            // trenutno obradjujemo, ne brisi
+            RequestParser.MarkInProcess(req.ID);
+
             // posaljemo ga kad se oslobodi i dodje njegov red
             bool transactionResult = sectorProxy.TransactionProxy.DoTransaction(username, type, amount);
             transactionQueue.Dequeue();
 
             RequestParser.MarkProcessed(req.ID);    // posto je on fakticki obradjen, al moze li biti neuspelo?
+            RequestParser.FinishProcess(req.ID);
 
             return transactionResult;
         }

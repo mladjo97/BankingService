@@ -8,7 +8,7 @@ namespace DatabaseLib
 {
     public class RequestParser
     {
-        private static string requestDbPath = @"C:\Users\Administrator\Desktop\BankingService\BankingService\requests.json";     // ovo je samo test
+        private static string requestDbPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\requests.json"));
 
         public static void CreateDB()
         {

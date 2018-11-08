@@ -1,6 +1,7 @@
 ﻿using CommonStuff.ClientContract;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 
@@ -8,6 +9,8 @@ namespace BankingService
 {
     class Program
     {
+        private static string bankingSectorsPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory() , @"..\..\..\BankingSectors\bin\Debug\BankingSectors.exe"));
+
         private static ServiceHost clientServiceHost;
         private static ServiceHost adminServiceHost;
 
@@ -17,7 +20,7 @@ namespace BankingService
             StartAdminServices();
 
             // pokreni BankingSector
-            Process.Start(@"C:\Users\Administrator\Desktop\BankingService\BankingService\BankingSectors\bin\Debug\BankingSectors.exe");
+            Process.Start(bankingSectorsPath);
 
             Console.WriteLine("Press <enter> to stop service...");
 
