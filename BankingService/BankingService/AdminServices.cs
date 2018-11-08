@@ -20,7 +20,7 @@ namespace BankingService
                 if (!request.IsProcessed)
                 {
                     TimeSpan time = DateTime.Now.Subtract(request.DateAndTime);
-                    if (time.Seconds > 4)
+                    if (time.Seconds > 2)
                     {
                         Console.WriteLine($"Request {request.ID} was older than 10 seconds. Deleting it ...");
                         RequestParser.DeleteRequest(request.ID);
@@ -28,7 +28,7 @@ namespace BankingService
                     }
                 }
             }
-            Thread.Sleep(5000);
+            Thread.Sleep(500);
         }
 
         public void CreateDB()
