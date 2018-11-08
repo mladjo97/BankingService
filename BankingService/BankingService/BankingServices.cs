@@ -46,13 +46,18 @@ namespace BankingService
                 if (free && next == username)
                     break;
                 
-            }            
+            }
+
+            // da li postoji zahtev 
+            bool stillExists = RequestExists(req.ID);
+            if (!stillExists)
+                return false;
 
             // posaljemo ga kad se oslobodi i dodje njegov red
             bool accountResult = sectorProxy.AccountProxy.OpenAccount(username);
             accountQueue.Dequeue();
 
-            //RequestParser.MarkProcessed(req.ID);    // ovo moramo nekako sklopiti kad napravimo odvojen servise radi ID
+            RequestParser.MarkProcessed(req.ID);    // ovo moramo nekako sklopiti kad napravimo odvojen servise radi ID
 
             return accountResult;
         }
@@ -84,6 +89,11 @@ namespace BankingService
                 if (free && next == username)
                     break;
             }
+
+            // da li postoji zahtev 
+            bool stillExists = RequestExists(req.ID);
+            if (!stillExists)
+                return false;
 
             // posaljemo ga kad se oslobodi i dodje njegov red
             bool creditResult = sectorProxy.CreditProxy.TakeLoan(username, amount);
@@ -127,6 +137,11 @@ namespace BankingService
                     break;
             }
 
+            // da li postoji zahtev 
+            bool stillExists = RequestExists(req.ID);
+            if (!stillExists)
+                return false;
+
             // posaljemo ga kad se oslobodi i dodje njegov red
             bool transactionResult = sectorProxy.TransactionProxy.DoTransaction(username, type, amount);
             transactionQueue.Dequeue();
@@ -134,6 +149,16 @@ namespace BankingService
             RequestParser.MarkProcessed(req.ID);    // posto je on fakticki obradjen, al moze li biti neuspelo?
 
             return transactionResult;
+        }
+
+        private bool RequestExists(int reqID)
+        {
+            var req = RequestParser.GetRequest(reqID);
+
+            if (req.ID == 0)
+                return false;
+
+            return true;
         }
 
     }

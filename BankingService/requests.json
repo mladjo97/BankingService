@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "ID": 0,
+    "User": null,
+    "DateAndTime": "0001-01-01T00:00:00",
+    "Action": "OpenAccount",
+    "IsProcessed": true
+  }
+]

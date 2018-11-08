@@ -42,6 +42,7 @@ namespace Client
 
                         while (true)
                         {
+                            // ako je enter break
                             try
                             {
                                 adminProxy.CheckRequests();
