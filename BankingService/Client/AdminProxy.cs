@@ -1,5 +1,6 @@
 ﻿using CommonStuff.ClientContract;
 using System;
+using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 
 namespace Client
@@ -8,8 +9,9 @@ namespace Client
     {
         IAdminServices factory;
 
-        public AdminProxy(NetTcpBinding binding, string address) : base(binding, address)
+        public AdminProxy(NetTcpBinding binding, EndpointAddress address) : base(binding, address)
         {
+            this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
             factory = this.CreateChannel();
         }
 

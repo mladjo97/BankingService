@@ -1,9 +1,12 @@
 ﻿using CommonStuff.ClientContract;
+using Manager;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using System.ServiceModel.Security;
 
 namespace BankingService
 {
@@ -32,6 +35,7 @@ namespace BankingService
         static void StartClientServices()
         {
             NetTcpBinding binding = new NetTcpBinding();
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
             string address = "net.tcp://localhost:9999/BankingServices";
 
             clientServiceHost = new ServiceHost(typeof(BankingServices));
@@ -40,14 +44,26 @@ namespace BankingService
             clientServiceHost.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
             clientServiceHost.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
 
-            clientServiceHost.Open();
+            // sertifikati
+            clientServiceHost.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.ChainTrust;
+            clientServiceHost.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
+            clientServiceHost.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "bankingservice");
 
-            Console.WriteLine("BankingServices service is started.");
+            try
+            {
+                clientServiceHost.Open();
+                Console.WriteLine("BankingServices service is started.");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("[ERROR in BankingServices] {0}", e.Message);
+            }
         }
 
         static void StartAdminServices()
         {
             NetTcpBinding binding = new NetTcpBinding();
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
             string address = "net.tcp://localhost:9998/AdminServices";
 
             adminServiceHost = new ServiceHost(typeof(AdminServices));
@@ -56,9 +72,21 @@ namespace BankingService
             adminServiceHost.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
             adminServiceHost.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
 
-            adminServiceHost.Open();
+            // sertifikati
+            adminServiceHost.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.ChainTrust;
+            adminServiceHost.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
+            adminServiceHost.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "bankingservice");
 
-            Console.WriteLine("AdminServices service is started.");
+            try
+            {
+                adminServiceHost.Open();
+                Console.WriteLine("AdminServices service is started.");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("[ERROR in AdminServices] {0}", e.Message);
+            }
+
         }
 
     }

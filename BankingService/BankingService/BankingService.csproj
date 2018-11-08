@@ -34,6 +34,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -56,6 +57,10 @@
     <ProjectReference Include="..\BankingSectors\BankingSectors.csproj">
       <Project>{186C1CF9-9A86-4697-9790-0ADB30AD29CC}</Project>
       <Name>BankingSectors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CertificationManager\CertificationManager.csproj">
+      <Project>{39A1D8CF-0B51-455C-A7CA-73DE67BB7AAC}</Project>
+      <Name>CertificationManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\CommonStuff\CommonStuff.csproj">
       <Project>{d6e4534d-6a82-4ee5-9f7a-82ddaee160a5}</Project>

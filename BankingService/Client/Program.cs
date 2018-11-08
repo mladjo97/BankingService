@@ -1,5 +1,7 @@
 ﻿using CommonStuff;
+using Manager;
 using System;
+using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 
 namespace Client
@@ -11,16 +13,25 @@ namespace Client
             StartingMenu();
             
             Console.ReadLine();
-
         }
 
 
         static void StartingMenu()
         {
+            string srvCertCN = "bankingservice";
+
             bool check = true;
             string clientType;
 
             NetTcpBinding binding = new NetTcpBinding();
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+
+            /// uzmemo sertifikat servisa
+            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
+
+            EndpointAddress adminAddress = new EndpointAddress(new Uri("net.tcp://localhost:9998/AdminServices"), new X509CertificateEndpointIdentity(srvCert));
+            EndpointAddress clientAddress = new EndpointAddress(new Uri("net.tcp://localhost:9999/BankingServices"), new X509CertificateEndpointIdentity(srvCert));
+
 
             while (check)
             {
@@ -30,7 +41,7 @@ namespace Client
                 if (clientType.ToLower() == "admin")
                 {
                     check = false;
-                    string adminAddress = "net.tcp://localhost:9998/AdminServices";
+                    //string adminAddress = "net.tcp://localhost:9998/AdminServices";
 
                     // Ovo cemo menjati kad budemo radili sa sertifikatom
                     Console.WriteLine("Enter username:");
@@ -59,11 +70,23 @@ namespace Client
                 else if (clientType.ToLower() == "user")
                 {
                     check = false;
-                    string clientAddress = "net.tcp://localhost:9999/BankingServices";
+                    //string clientAddress = "net.tcp://localhost:9999/BankingServices";
 
                     // Ovo cemo menjati kad budemo radili sa sertifikatom
-                    Console.WriteLine("Enter username:");
-                    string username = Console.ReadLine();
+                    string username = string.Empty;
+                    X509Certificate2 clientCert;
+
+                    do
+                    {
+                        Console.WriteLine("Enter username:");
+                        username = Console.ReadLine();
+
+                        // da li postoji sertifikat
+                        clientCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, username);
+                        if (clientCert != null)
+                            break;
+
+                    } while (true);
 
                     int operation = OperationMenu();
 
@@ -71,6 +94,9 @@ namespace Client
                     {
                         using (ClientProxy proxy = new ClientProxy(binding, clientAddress))
                         {
+                            // postavi sertifikat
+                            proxy.Credentials.ClientCertificate.Certificate = clientCert;
+
                             // otvori racun                
                             if (proxy.OpenAccount(username))
                                 Console.WriteLine("Success! Account opened.");
