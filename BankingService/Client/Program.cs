@@ -3,6 +3,7 @@ using CertificationManager;
 using System;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
+using System.Threading;
 
 namespace Client
 {
@@ -70,7 +71,7 @@ namespace Client
                             }
                             catch (Exception e)
                             {
-                                Console.WriteLine("Error: {0}",e.Message);
+                                Console.WriteLine("Error: {0}", e.Message);
                                 break;
                             }
                         }
@@ -79,91 +80,115 @@ namespace Client
                 }
                 else if (clientType.ToLower() == "user")
                 {
-                    check = false;
-                    //string clientAddress = "net.tcp://localhost:9999/BankingServices";
+                    
 
-                    // Ovo cemo menjati kad budemo radili sa sertifikatom
-                    string username = string.Empty;
-                    X509Certificate2 clientCert;
 
-                    do
-                    {
-                        Console.WriteLine("Enter username:");
-                        username = Console.ReadLine();
 
-                        // da li postoji sertifikat
-                        clientCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, username);
-                        if (clientCert != null)
-                            break;
+                        check = false;
+                        //string clientAddress = "net.tcp://localhost:9999/BankingServices";
 
-                    } while (true);
+                        // Ovo cemo menjati kad budemo radili sa sertifikatom
+                        string username = string.Empty;
+                        X509Certificate2 clientCert;
 
-                    int operation = OperationMenu();
-
-                    if (operation == 1)
-                    {
-                        try
+                        do
                         {
-                            using (ClientProxy proxy = new ClientProxy(binding, clientAddress, clientCert))
-                            {
+                            Console.WriteLine("Enter username:");
+                            username = Console.ReadLine();
 
-                                
-                                // otvori racun                
-                                if (proxy.OpenAccount(username))
-                                    Console.WriteLine("Success! Account opened.");
-                                else
-                                    Console.WriteLine("Fail! Account was not opened.");
+                            // da li postoji sertifikat
+                            clientCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, username);
+                            if (clientCert != null)
+                                break;
+
+                        } while (true);
+
+                    while (true)
+                    {
+
+                        int operation = OperationMenu();
+
+                        if (operation == 1)
+                        {
+                            try
+                            {
+                                using (ClientProxy proxy = new ClientProxy(binding, clientAddress, clientCert))
+                                {
+
+
+                                    // otvori racun                
+                                    if (proxy.OpenAccount(username))
+                                    {
+                                        Console.Clear();
+                                        Console.WriteLine("Success! Account opened.");
+                                    }
+                                    else
+                                        Console.WriteLine("Fail! Account was not opened.");
+                                }
                             }
-                        }
-                        catch (Exception e)
-                        {
+                            catch (Exception e)
+                            {
 
-                            Console.WriteLine("Error, {0}",e.Message);
-                            
+                                Console.WriteLine("Error, {0}", e.Message);
+
+                            }
+
                         }
-                        
-                    }
-                    else if (operation == 2)
-                    {
-                        try
+                        else if (operation == 2)
+                        {
+                            try
+                            {
+                                using (ClientProxy proxy = new ClientProxy(binding, clientAddress, clientCert))
+                                {
+                                    // Credit
+                                    Console.WriteLine("Enter the amount you want:");
+                                    string amount = Console.ReadLine();
+                                    if (proxy.TakeLoan(username, double.Parse(amount)))
+                                    {
+                                        Console.Clear();
+                                        Console.WriteLine("Success! Loan taken.");
+
+                                    }
+                                    else
+                                        Console.WriteLine("Fail! Loan was not approved.");
+                                }
+                            }
+                            catch (Exception e)
+                            {
+
+                                Console.WriteLine("Error, {0}", e.Message);
+                            }
+
+                        }
+                        else if (operation == 0)
+                        {
+                            Console.WriteLine("Press any key to close the program...");
+                            break;
+                        }
+
+                        else
                         {
                             using (ClientProxy proxy = new ClientProxy(binding, clientAddress, clientCert))
                             {
-                                // Credit
+                                // Transakcija ( Uplata / Isplata)
                                 Console.WriteLine("Enter the amount you want:");
                                 string amount = Console.ReadLine();
-                                if (proxy.TakeLoan(username, double.Parse(amount)))
-                                    Console.WriteLine("Success! Loan taken.");
+                                TransactionType transactionType;
+
+                                if (operation == 4)
+                                    transactionType = TransactionType.Deposit;
                                 else
-                                    Console.WriteLine("Fail! Loan was not approved.");
+                                    transactionType = TransactionType.Withdrawal;
+
+                                if (proxy.DoTransaction(username, transactionType, double.Parse(amount)))
+                                {
+                                    Console.Clear();
+                                    Console.WriteLine("Success! The transaction is done");
+
+                                }
+                                else
+                                    Console.WriteLine("Fail! You were unable to do the Transaction");
                             }
-                        }
-                        catch (Exception e)
-                        {
-
-                            Console.WriteLine("Error, {0}",e.Message);
-                        }
-                        
-                    }
-
-                    else 
-                    {
-                        using (ClientProxy proxy = new ClientProxy(binding, clientAddress,clientCert))
-                        {
-                            // Transakcija ( Uplata / Isplata)
-                            Console.WriteLine("Enter the amount you want:");
-                            string amount = Console.ReadLine();
-                            TransactionType transactionType;
-
-                            if (operation == 4)
-                                transactionType = TransactionType.Deposit;
-                            else
-                                transactionType = TransactionType.Withdrawal;
-
-                            if (proxy.DoTransaction(username, transactionType,double.Parse(amount)))
-                                Console.WriteLine("Success! The transaction is done");
-                            else
-                                Console.WriteLine("Fail! You were unable to do the Transaction");
                         }
                     }
                 }
@@ -183,10 +208,10 @@ namespace Client
             do
             {
                 Console.WriteLine("Choose the operation:");
-                Console.WriteLine("1. OpenAccount \n2.Take loan \n3.Make transactions");
+                Console.WriteLine("1. OpenAccount \n2.Take loan \n3.Make transactions\n0.Close program");
 
                opp = Console.ReadLine();
-                if(opp =="1" || opp == "2" )
+                if(opp =="1" || opp == "2" || opp =="0")
                 {
                     break;
                 }
@@ -208,7 +233,7 @@ namespace Client
                             Console.WriteLine("Error, you didn't enter the right number...Try it again");
                         }
                     }
-                    while (secondOut);
+                    while (true);
                 }
                 else
                 {
@@ -216,7 +241,7 @@ namespace Client
                     Console.WriteLine("Error, you didn't enter the right number...Try it again");
                 }
             }
-            while (true);
+            while (secondOut);
 
             return int.Parse(opp);
         }
