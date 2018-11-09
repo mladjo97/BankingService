@@ -165,6 +165,26 @@ namespace Client
                             Console.WriteLine("Press any key to close the program...");
                             break;
                         }
+                        else if(operation == 9)
+                        {
+                            using (ClientProxy proxy = new ClientProxy(binding, clientAddress, clientCert))
+                            {
+                                AccountInfo acc = proxy.GetAccountInfo(username);
+                                if (acc == null)
+                                {
+                                    Console.WriteLine("Fail! You dont have the permision");
+                                }
+
+                                // otvori racun                
+                                else if (acc.DoesExsist)
+                                {
+                                    Console.Clear();
+                                    Console.WriteLine("Account Info:\n Username: {0} \nCredit: {1} \nBalance: {2}",username,acc.Credit,acc.Balance);
+                                }
+                                else
+                                    Console.WriteLine("Fail! Account does not exist.");
+                            }
+                        }
 
                         else
                         {
@@ -208,10 +228,10 @@ namespace Client
             do
             {
                 Console.WriteLine("Choose the operation:");
-                Console.WriteLine("1. OpenAccount \n2.Take loan \n3.Make transactions\n0.Close program");
+                Console.WriteLine("1. OpenAccount \n2.Take loan \n3.Make transactions\n9.Show info about the account\n0.Close program");
 
                opp = Console.ReadLine();
-                if(opp =="1" || opp == "2" || opp =="0")
+                if(opp =="1" || opp == "2" || opp =="0" || opp == "9")
                 {
                     break;
                 }

@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountInfo.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="SectorContracts\IAccountServices.cs" />
     <Compile Include="ClientContracts\IAdminServices.cs" />

@@ -5,6 +5,7 @@ using DatabaseLib;
 using DatabaseLib.Classes;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
 
@@ -202,6 +203,48 @@ namespace BankingService
             RequestParser.FinishProcess(req.ID);
 
             return transactionResult;
+        }
+
+        public AccountInfo GetAccountInfo(string username)
+        {
+            // log successfull authentication
+            Audit.AuthenticationSuccess(username);
+
+            // ako nema prava, vrati false
+            if (!CheckAuthorization())
+            {
+                Audit.AuthorizationFailed(username, "GetAccountInfo", $"{username} is not User");
+                return null;
+            }
+
+            // log successfull authorization
+            Audit.AuthorizationSuccess(username, "GetAccountInfo");
+
+            // napravimo novi zahtev
+            Request req = new Request();
+            req.ID = RequestParser.GetRandomID();
+            req.DateAndTime = DateTime.Now;
+            req.Action = RequestAction.AccountInfo;
+            req.User = username;
+            req.IsProcessed = true;
+            req.InProcess = false;
+
+            RequestParser.WriteRequest(req);
+
+
+           AccountInfo account = new AccountInfo();
+           List<Account> accounts =  AccountParser.GetAccounts();
+            foreach (Account item in accounts)
+            {
+                if(item.Owner == username)
+                {
+                    account.DoesExsist = true;
+                    account.Balance = item.Balance;
+                    account.Credit = item.Credit;
+                    break;
+                }
+            }
+            return account;
         }
 
         private bool RequestExists(int reqID)

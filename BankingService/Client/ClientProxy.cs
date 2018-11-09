@@ -70,6 +70,20 @@ namespace Client
 
             return result;
         }
+        public AccountInfo GetAccountInfo(string username)
+        {
+            AccountInfo account;
+            try
+            {
+                account = factory.GetAccountInfo(username);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return account;
+        }
 
     }
 }
