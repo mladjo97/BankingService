@@ -4,6 +4,7 @@ using DatabaseLib;
 using DatabaseLib.Classes;
 using System;
 using System.Collections;
+using System.ServiceModel;
 using System.Threading;
 
 namespace BankingService
@@ -18,14 +19,17 @@ namespace BankingService
 
         public bool OpenAccount(string username)
         {
-            
+            // ako nema prava, vrati false
+            if (!CheckAuthorization())
+                return false;
+
             // napravimo novi zahtev
             Request req = new Request();
             req.ID = RequestParser.GetRandomID();
             req.DateAndTime = DateTime.Now;
             req.Action = RequestAction.OpenAccount;
             req.User = username;
-            req.IsProcessed = false;    // ovo posle mozemo promeniti iz sektora direktno ili ovde kad vrati odgovor
+            req.IsProcessed = false;  
             req.InProcess = false;
 
             RequestParser.WriteRequest(req);
@@ -34,17 +38,16 @@ namespace BankingService
             accountQueue.Enqueue(username);            
 
             while (true)
-            {              
-                Console.WriteLine("AccountSector is not available currently.");
-
+            {                             
                 string next = (string)accountQueue.Peek();
                 bool free = sectorProxy.AccountProxy.IsItFree();
 
-                Console.WriteLine($"{username}: free:{free} / next:{next}");
+                Console.WriteLine($"{username} connected to OpenAccount / Free: {free}, Next: {next}");
 
                 if (free && next == username)
                     break;
 
+                Console.WriteLine("AccountSector is not available currently.");
                 Thread.Sleep(1000);
             }
 
@@ -60,7 +63,7 @@ namespace BankingService
             bool accountResult = sectorProxy.AccountProxy.OpenAccount(username);
             accountQueue.Dequeue();
 
-            RequestParser.MarkProcessed(req.ID);    // ovo moramo nekako sklopiti kad napravimo odvojen servise radi ID
+            RequestParser.MarkProcessed(req.ID);  
             RequestParser.FinishProcess(req.ID);
 
             return accountResult;
@@ -68,6 +71,10 @@ namespace BankingService
 
         public bool TakeLoan(string username, double amount)
         {
+            // ako nema prava, vrati false
+            if (!CheckAuthorization())
+                return false;
+
             Request req = new Request();
             req.ID = RequestParser.GetRandomID();
             req.DateAndTime = DateTime.Now;
@@ -83,16 +90,16 @@ namespace BankingService
 
             while (true)
             {
-                Thread.Sleep(1000);
-                Console.WriteLine("TransactionSector is not available currently.");
-
-                string next = (string)accountQueue.Peek();
+                string next = (string)creditQueue.Peek();
                 bool free = sectorProxy.CreditProxy.IsItFree();
 
-                Console.WriteLine($"{username}: free:{free} / next:{next}");
+                Console.WriteLine($"{username} connected to TakeLoan / Free: {free}, Next: {next}");
 
                 if (free && next == username)
                     break;
+
+                Console.WriteLine("CreditSector is not available currently.");
+                Thread.Sleep(1000);
             }
 
             // da li postoji zahtev 
@@ -107,14 +114,18 @@ namespace BankingService
             bool creditResult = sectorProxy.CreditProxy.TakeLoan(username, amount);
             creditQueue.Dequeue();
 
-            RequestParser.MarkProcessed(req.ID);    // ovo moramo nekako sklopiti kad napravimo odvojen servise radi ID
+            RequestParser.MarkProcessed(req.ID);  
             RequestParser.FinishProcess(req.ID);
 
             return creditResult;
         }
 
-        public bool DoTransaction(string username,TransactionType type, double amount)
+        public bool DoTransaction(string username, TransactionType type, double amount)
         {
+            // ako nema prava, vrati false
+            if (!CheckAuthorization())
+                return false;
+
             // upise neobradjen zahtev
             Request req = new Request();
             req.ID = RequestParser.GetRandomID();
@@ -134,17 +145,17 @@ namespace BankingService
             creditQueue.Enqueue(username);
 
             while (true)
-            {
-                Thread.Sleep(1000);
-                Console.WriteLine("TransactionSector is not available currently.");
-
-                string next = (string)accountQueue.Peek();
+            {                
+                string next = (string)transactionQueue.Peek();
                 bool free = sectorProxy.TransactionProxy.IsItFree();
 
-                Console.WriteLine($"{username}: free:{free} / next:{next}");
+                Console.WriteLine($"{username} connected to DoTransaction / Free: {free}, Next: {next}");
 
                 if (free && next == username)
                     break;
+
+                Console.WriteLine("TransactionSector is not available currently.");
+                Thread.Sleep(1000);
             }
 
             // da li postoji zahtev 
@@ -159,7 +170,7 @@ namespace BankingService
             bool transactionResult = sectorProxy.TransactionProxy.DoTransaction(username, type, amount);
             transactionQueue.Dequeue();
 
-            RequestParser.MarkProcessed(req.ID);    // posto je on fakticki obradjen, al moze li biti neuspelo?
+            RequestParser.MarkProcessed(req.ID);
             RequestParser.FinishProcess(req.ID);
 
             return transactionResult;
@@ -173,6 +184,11 @@ namespace BankingService
                 return false;
 
             return true;
+        }
+
+        private bool CheckAuthorization()
+        {
+            return ServiceSecurityContext.Current.PrimaryIdentity.Name.Split('=')[2].Contains("User");
         }
 
     }

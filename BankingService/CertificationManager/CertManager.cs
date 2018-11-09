@@ -2,7 +2,7 @@
 using System.Security;
 using System.Security.Cryptography.X509Certificates;
 
-namespace Manager
+namespace CertificationManager
 {
     public class CertManager
     {

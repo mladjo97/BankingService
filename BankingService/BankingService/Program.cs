@@ -1,5 +1,5 @@
 ﻿using CommonStuff.ClientContract;
-using Manager;
+using CertificationManager;
 using System;
 using System.Diagnostics;
 using System.IO;

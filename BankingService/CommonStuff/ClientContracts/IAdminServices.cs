@@ -6,9 +6,9 @@ namespace CommonStuff.ClientContract
     public interface IAdminServices
     {
         [OperationContract]
-        void CreateDB();
+        bool CreateDB();
 
         [OperationContract]
-        void CheckRequests();
+        bool CheckRequests();
     }
 }

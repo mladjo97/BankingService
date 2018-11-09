@@ -15,28 +15,38 @@ namespace Client
             factory = this.CreateChannel();
         }
 
-        public void CheckRequests()
+        public bool CheckRequests()
         {
+            bool result = false;
+
             try
             {
-                factory.CheckRequests();       // proveri jednom, ovde neki while ili nesto, samo da ponavlja         
+                result = factory.CheckRequests();       // proveri jednom, ovde neki while ili nesto, samo da ponavlja
+                return result;
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Error in AdminProxy.CheckRequest(): {e.Message}");
             }
+
+            return result;
         }
 
-        public void CreateDB()
+        public bool CreateDB()
         {
+            bool result = false;
+
             try
             {
-                factory.CreateDB();
+                result = factory.CreateDB();
+                return result;
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Error in AdminProxy.CreateDB(): {e.Message}");
             }
+
+            return result;
         }
     }
 }

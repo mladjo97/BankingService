@@ -1,5 +1,5 @@
 ﻿using CommonStuff;
-using Manager;
+using CertificationManager;
 using System;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
@@ -49,14 +49,24 @@ namespace Client
 
                     using (AdminProxy adminProxy = new AdminProxy(binding, adminAddress))
                     {
-                        adminProxy.CreateDB();
+                        if (adminProxy.CreateDB())
+                        {
+                            Console.WriteLine("DB was created.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("DB was not created.");
+                        }
 
                         while (true)
                         {
                             // ako je enter break
                             try
                             {
-                                adminProxy.CheckRequests();
+                                if (!adminProxy.CheckRequests())
+                                {
+                                    Console.WriteLine("You cant check requests. Not admin.");
+                                }
                             }
                             catch (Exception e)
                             {
