@@ -28,10 +28,10 @@ namespace Client
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
             /// uzmemo sertifikat servisa
-            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
+            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, srvCertCN);
 
-            EndpointAddress adminAddress = new EndpointAddress(new Uri("net.tcp://localhost:9998/AdminServices"), new X509CertificateEndpointIdentity(srvCert));
-            EndpointAddress clientAddress = new EndpointAddress(new Uri("net.tcp://localhost:9999/BankingServices"), new X509CertificateEndpointIdentity(srvCert));
+            EndpointAddress adminAddress = new EndpointAddress(new Uri("net.tcp://10.1.212.174:9998/AdminServices"), new X509CertificateEndpointIdentity(srvCert));
+            EndpointAddress clientAddress = new EndpointAddress(new Uri("net.tcp://10.1.212.174:9999/BankingServices"), new X509CertificateEndpointIdentity(srvCert));
 
 
             while (check)
@@ -173,23 +173,32 @@ namespace Client
                         }
                         else if(operation == 9)
                         {
-                            using (ClientProxy proxy = new ClientProxy(binding, clientAddress, clientCert))
+                            try
                             {
-                                AccountInfo acc = proxy.GetAccountInfo(username);
-                                if (acc == null)
+                                using (ClientProxy proxy = new ClientProxy(binding, clientAddress, clientCert))
                                 {
-                                    Console.WriteLine("Fail! You dont have the permision");
-                                }
+                                    AccountInfo acc = proxy.GetAccountInfo(username);
+                                    if (acc == null)
+                                    {
+                                        Console.WriteLine("Fail! You dont have the permision");
+                                    }
 
-                                // otvori racun                
-                                else if (acc.DoesExist)
-                                {
-                                    Console.Clear();
-                                    Console.WriteLine("Account Info:\n Username: {0} \nCredit: {1} \nBalance: {2}", username, acc.Credit, acc.Balance);
+                                    // otvori racun                
+                                    else if (acc.DoesExist)
+                                    {
+                                        Console.Clear();
+                                        Console.WriteLine("Account Info:\n Username: {0} \nCredit: {1} \nBalance: {2}", username, acc.Credit, acc.Balance);
+                                    }
+                                    else
+                                        Console.WriteLine("Fail! Account does not exist.");
                                 }
-                                else
-                                    Console.WriteLine("Fail! Account does not exist.");
                             }
+                            catch (Exception e)
+                            {
+
+                                Console.WriteLine("Error,{0}",e.Message);
+                            }
+                            
                         }
 
                         else
