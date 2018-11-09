@@ -30,7 +30,7 @@ namespace Client
             X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, srvCertCN);
 
             EndpointAddress adminAddress = new EndpointAddress(new Uri("net.tcp://172.28.250.1:9998/AdminServices"), new X509CertificateEndpointIdentity(srvCert));
-            EndpointAddress clientAddress = new EndpointAddress(new Uri("net.tcp://10.1.212.155:9999/BankingServices"), new X509CertificateEndpointIdentity(srvCert));
+            EndpointAddress clientAddress = new EndpointAddress(new Uri("net.tcp://10.1.212.174:9999/BankingServices"), new X509CertificateEndpointIdentity(srvCert));
 
 
             while (check)
@@ -115,16 +115,25 @@ namespace Client
                     }
                     else if (operation == 2)
                     {
-                        using (ClientProxy proxy = new ClientProxy(binding, clientAddress,clientCert))
+                        try
                         {
-                            // Credit
-                            Console.WriteLine("Enter the amount you want:");
-                            string amount = Console.ReadLine();
-                            if (proxy.TakeLoan(username, int.Parse(amount)))
-                                Console.WriteLine("Success! Loan taken.");
-                            else
-                                Console.WriteLine("Fail! Loan was not approved.");
+                            using (ClientProxy proxy = new ClientProxy(binding, clientAddress, clientCert))
+                            {
+                                // Credit
+                                Console.WriteLine("Enter the amount you want:");
+                                string amount = Console.ReadLine();
+                                if (proxy.TakeLoan(username, double.Parse(amount)))
+                                    Console.WriteLine("Success! Loan taken.");
+                                else
+                                    Console.WriteLine("Fail! Loan was not approved.");
+                            }
                         }
+                        catch (Exception e)
+                        {
+
+                            Console.WriteLine("Error, {0}",e.Message);
+                        }
+                        
                     }
 
                     else 
@@ -141,7 +150,7 @@ namespace Client
                             else
                                 transactionType = TransactionType.Withdrawal;
 
-                            if (proxy.DoTransaction(username, transactionType,int.Parse(amount)))
+                            if (proxy.DoTransaction(username, transactionType,double.Parse(amount)))
                                 Console.WriteLine("Success! The transaction is done");
                             else
                                 Console.WriteLine("Fail! You were unable to do the Transaction");
@@ -160,6 +169,7 @@ namespace Client
         static int OperationMenu()
         {
             string opp;
+            bool secondOut = true;
             do
             {
                 Console.WriteLine("Choose the operation:");
@@ -177,15 +187,18 @@ namespace Client
                         Console.WriteLine("Enter '4' for Deposit or 5 for Withdrawal");
                         opp = Console.ReadLine();
 
-                        if (opp == "4" || opp== "5")
+                        if (opp == "4" || opp == "5")
+                        {
+                            secondOut = false;
                             break;
+                        }
                         else
                         {
                             Console.Clear();
                             Console.WriteLine("Error, you didn't enter the right number...Try it again");
                         }
                     }
-                    while (true);
+                    while (secondOut);
                 }
                 else
                 {
