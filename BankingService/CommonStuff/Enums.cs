@@ -11,7 +11,8 @@
         OpenAccount,
         TakeLoan,
         Deposit,
-        Withdrawal
+        Withdrawal,
+        AccountInfo
     }
 
 }

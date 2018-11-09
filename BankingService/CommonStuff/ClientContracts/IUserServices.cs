@@ -13,5 +13,8 @@ namespace CommonStuff.ClientContract
 
         [OperationContract]
         bool DoTransaction(string username, TransactionType type, double amount);
+
+        [OperationContract]
+        AccountInfo GetAccountInfo(string username);
     }
 }
