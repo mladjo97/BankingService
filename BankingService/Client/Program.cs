@@ -28,10 +28,10 @@ namespace Client
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
             /// uzmemo sertifikat servisa
-            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, srvCertCN);
+            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
 
-            EndpointAddress adminAddress = new EndpointAddress(new Uri("net.tcp://172.28.250.1:9998/AdminServices"), new X509CertificateEndpointIdentity(srvCert));
-            EndpointAddress clientAddress = new EndpointAddress(new Uri("net.tcp://10.1.212.174:9999/BankingServices"), new X509CertificateEndpointIdentity(srvCert));
+            EndpointAddress adminAddress = new EndpointAddress(new Uri("net.tcp://localhost:9998/AdminServices"), new X509CertificateEndpointIdentity(srvCert));
+            EndpointAddress clientAddress = new EndpointAddress(new Uri("net.tcp://localhost:9999/BankingServices"), new X509CertificateEndpointIdentity(srvCert));
 
 
             while (check)
@@ -42,13 +42,22 @@ namespace Client
                 if (clientType.ToLower() == "admin")
                 {
                     check = false;
-                    //string adminAddress = "net.tcp://localhost:9998/AdminServices";
+                    string username = string.Empty;
+                    X509Certificate2 clientCert;
 
-                    // Ovo cemo menjati kad budemo radili sa sertifikatom
-                    Console.WriteLine("Enter username:");
-                    string username = Console.ReadLine();
+                    do
+                    {
+                        Console.WriteLine("Enter username:");
+                        username = Console.ReadLine();
 
-                    using (AdminProxy adminProxy = new AdminProxy(binding, adminAddress))
+                        // da li postoji sertifikat
+                        clientCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, username);
+                        if (clientCert != null)
+                            break;
+
+                    } while (true);
+
+                    using (AdminProxy adminProxy = new AdminProxy(binding, adminAddress, clientCert))
                     {
                         if (adminProxy.CreateDB())
                         {
@@ -80,9 +89,6 @@ namespace Client
                 }
                 else if (clientType.ToLower() == "user")
                 {
-                    
-
-
 
                         check = false;
                         //string clientAddress = "net.tcp://localhost:9999/BankingServices";

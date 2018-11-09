@@ -41,6 +41,7 @@ namespace BankingService
                         Console.WriteLine($"Request {request.ID} was older than 5 seconds. Deleting it ...");
                         RequestParser.DeleteRequest(request.ID);
                         Console.WriteLine($"Request {request.ID} deleted.");
+                        Audit.DatabaseAction(username, $"Deleted request with ID: {request.ID}.");
                     }
                 }
             }
@@ -66,6 +67,8 @@ namespace BankingService
             Audit.AuthorizationSuccess(username, "CreateDB");
 
             RequestParser.CreateDB();
+            Audit.DatabaseAction(username, "Created a database for requests.");
+
             return true;
         }
 
@@ -76,7 +79,7 @@ namespace BankingService
 
         private string GetUsername()
         {
-            return ServiceSecurityContext.Current.PrimaryIdentity.Name.Split('=')[1];
+            return ServiceSecurityContext.Current.PrimaryIdentity.Name.Split('=')[1].Split(',')[0];
         }
     }
 }

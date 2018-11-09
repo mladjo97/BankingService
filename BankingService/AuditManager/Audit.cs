@@ -19,9 +19,11 @@ namespace AuditManager
                     EventLog.CreateEventSource(SourceName, LogName);
                 }
 
-                if (customLog == null)                
-                    customLog = new EventLog(LogName, Environment.MachineName, SourceName);
-                
+                if (customLog == null)
+                {
+                    customLog = new EventLog();
+                    customLog.Source = SourceName;
+                }
             }
             catch (Exception e)
             {
@@ -37,7 +39,7 @@ namespace AuditManager
             
             if (customLog != null)
             {
-                customLog.WriteEntry($"User {userName} was successfully authenticated.");                
+                customLog.WriteEntry($"User {userName} was successfully authenticated.", EventLogEntryType.Information, 101, 1);                
             }
             else
             {
@@ -49,29 +51,37 @@ namespace AuditManager
         {            
             if (customLog != null)
             {
-                customLog.WriteEntry($"User {userName} was successfully authorized in {methodName}.", EventLogEntryType.Information);
+                customLog.WriteEntry($"User {userName} was successfully authorized in {methodName}.", EventLogEntryType.Information, 101, 1);
             }
             else
             {
                 throw new ArgumentException($"Error while trying to write event <AuthorizationSuccess> to event log.");
             }
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="userName"></param>
-        /// <param name="serviceName"> should be read from the OperationContext as follows: OperationContext.Current.IncomingMessageHeaders.Action</param>
-        /// <param name="reason">permission name</param>
+        
         public static void AuthorizationFailed(string userName, string methodName, string reason)
         {
             if (customLog != null)
             {
-                customLog.WriteEntry($"User {userName} failed authorization in {methodName}. Reason: {reason}", EventLogEntryType.Information);
+                customLog.WriteEntry($"User {userName} failed authorization in {methodName}. Reason: {reason}", EventLogEntryType.Information, 101, 1);
             }
             else
             {
                 throw new ArgumentException($"Error while trying to write event <AuthorizationFailed> to event log.");
+            }
+        }
+
+        public static void DatabaseAction(string userName, string action)
+        {
+            CreateEventLog();
+
+            if (customLog != null)
+            {
+                customLog.WriteEntry($"User {userName} {action.ToLower()}.", EventLogEntryType.Information, 101, 1);
+            }
+            else
+            {
+                throw new ArgumentException($"Error while trying to write event <AuthenticationSuccess> to event log.");
             }
         }
 

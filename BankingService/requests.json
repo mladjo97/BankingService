@@ -38,5 +38,29 @@
     "Action": "Withdrawal",
     "IsProcessed": true,
     "InProcess": false
+  },
+  {
+    "ID": 7569,
+    "User": "biba",
+    "DateAndTime": "2018-11-09T16:17:28.366053+01:00",
+    "Action": "OpenAccount",
+    "IsProcessed": true,
+    "InProcess": false
+  },
+  {
+    "ID": 8825,
+    "User": "biba",
+    "DateAndTime": "2018-11-09T16:17:36.4117871+01:00",
+    "Action": "Deposit",
+    "IsProcessed": true,
+    "InProcess": false
+  },
+  {
+    "ID": 9691,
+    "User": "biba",
+    "DateAndTime": "2018-11-09T16:17:59.5839134+01:00",
+    "Action": "Withdrawal",
+    "IsProcessed": true,
+    "InProcess": false
   }
 ]
