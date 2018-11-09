@@ -21,8 +21,27 @@ namespace BankingSectors
 
             if(type == TransactionType.Deposit)
             {
-                // logika Deposita - skidanje kredita ili nesto
-                userAccount.Balance += amount;
+                // ako korisnik ima kredita onda mu od svake uplate skidamo 50%
+                if (userAccount.Credit > 0)
+                {
+                    double percent = amount * 0.5;
+
+                    if (userAccount.Credit - percent < 0)
+                    {
+                        userAccount.Balance += amount - userAccount.Credit;
+                        userAccount.Credit = 0;
+                    }
+                    else
+                    {
+                        userAccount.Credit -= percent;
+                        userAccount.Balance += amount - percent;
+                    }
+                }
+                else
+                {
+                    userAccount.Balance += amount;
+                }
+ 
                 AccountParser.DeleteAccount(username);
                 AccountParser.WriteAccount(userAccount);
             }

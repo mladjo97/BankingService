@@ -46,7 +46,7 @@ namespace BankingService
                 }
             }
 
-            Thread.Sleep(1000);
+            Thread.Sleep(5000);
             return true;
         }
 
@@ -74,7 +74,7 @@ namespace BankingService
 
         private bool CheckAuthorization()
         {
-            return ServiceSecurityContext.Current.PrimaryIdentity.Name.Split('=')[2].Contains("Admin");
+            return ServiceSecurityContext.Current.PrimaryIdentity.Name.Split('=')[2].Split(' ')[0].Contains("Admin");
         }
 
         private string GetUsername()

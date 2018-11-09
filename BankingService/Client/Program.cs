@@ -273,16 +273,3 @@ namespace Client
         }
     }
 }
-
-
-// uzmi kredit
-//if(proxy.TakeLoan("Mladen97",5000))
-//    Console.WriteLine("Success! Loan taken.");
-//else
-//    Console.WriteLine("Fail! Loan was not approved.");
-
-//// uplati novac
-//if(proxy.DoTransaction("Mladen97",TransactionType.Deposit, 3000))
-//    Console.WriteLine("Success! You deposited in your account.");
-//else
-//    Console.WriteLine("Fail! You were unable to deposit in your account.");

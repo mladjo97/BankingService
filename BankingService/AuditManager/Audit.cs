@@ -51,7 +51,7 @@ namespace AuditManager
         {            
             if (customLog != null)
             {
-                customLog.WriteEntry($"User {userName} was successfully authorized in {methodName}.", EventLogEntryType.Information, 101, 1);
+                customLog.WriteEntry($"User {userName} was successfully authorized in {methodName}.", EventLogEntryType.Information, 102, 1);
             }
             else
             {
@@ -63,7 +63,7 @@ namespace AuditManager
         {
             if (customLog != null)
             {
-                customLog.WriteEntry($"User {userName} failed authorization in {methodName}. Reason: {reason}", EventLogEntryType.Information, 101, 1);
+                customLog.WriteEntry($"User {userName} failed authorization in {methodName}. Reason: {reason}", EventLogEntryType.Information, 103, 1);
             }
             else
             {
@@ -77,7 +77,7 @@ namespace AuditManager
 
             if (customLog != null)
             {
-                customLog.WriteEntry($"User {userName} {action.ToLower()}.", EventLogEntryType.Information, 101, 1);
+                customLog.WriteEntry($"User {userName} {action.ToLower()}.", EventLogEntryType.Information, 104, 1);
             }
             else
             {

@@ -18,6 +18,7 @@ namespace BankingSectors
             {
                 Account newAccount = new Account(username) { ID = AccountParser.GetRandomID(), Balance = 0, Credit = 0 };
 
+                // ako postoji nalog, nema potrebe novi da pravimo
                 var accounts = AccountParser.GetAccounts();
                 foreach (var acc in accounts)
                     if (acc.Owner == username)

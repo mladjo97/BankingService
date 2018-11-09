@@ -1,65 +1,97 @@
 [
   {
-    "ID": 5560,
-    "User": "biba",
-    "DateAndTime": "2018-11-09T16:10:22.3160849+01:00",
+    "ID": 6786,
+    "User": "Sale",
+    "DateAndTime": "2018-11-09T17:55:45.8862612+01:00",
     "Action": "OpenAccount",
     "IsProcessed": true,
     "InProcess": false
   },
   {
-    "ID": 2340,
-    "User": "biba",
-    "DateAndTime": "2018-11-09T16:10:33.659561+01:00",
-    "Action": "Deposit",
+    "ID": 3261,
+    "User": "Sale",
+    "DateAndTime": "2018-11-09T17:56:10.4695113+01:00",
+    "Action": "AccountInfo",
     "IsProcessed": true,
     "InProcess": false
   },
   {
-    "ID": 6920,
-    "User": "biba",
-    "DateAndTime": "2018-11-09T16:10:42.4418901+01:00",
+    "ID": 5805,
+    "User": "Sale",
+    "DateAndTime": "2018-11-09T17:57:04.5932175+01:00",
     "Action": "OpenAccount",
     "IsProcessed": true,
     "InProcess": false
   },
   {
-    "ID": 8176,
-    "User": "biba",
-    "DateAndTime": "2018-11-09T16:10:50.4868631+01:00",
+    "ID": 8187,
+    "User": "Sale",
+    "DateAndTime": "2018-11-09T17:57:20.1974651+01:00",
     "Action": "TakeLoan",
     "IsProcessed": true,
     "InProcess": false
   },
   {
-    "ID": 6190,
-    "User": "biba",
-    "DateAndTime": "2018-11-09T16:11:06.0320703+01:00",
-    "Action": "Withdrawal",
+    "ID": 6409,
+    "User": "Sale",
+    "DateAndTime": "2018-11-09T17:57:23.5168566+01:00",
+    "Action": "TakeLoan",
     "IsProcessed": true,
     "InProcess": false
   },
   {
-    "ID": 7569,
-    "User": "biba",
-    "DateAndTime": "2018-11-09T16:17:28.366053+01:00",
-    "Action": "OpenAccount",
-    "IsProcessed": true,
-    "InProcess": false
-  },
-  {
-    "ID": 8825,
-    "User": "biba",
-    "DateAndTime": "2018-11-09T16:17:36.4117871+01:00",
+    "ID": 8135,
+    "User": "Sale",
+    "DateAndTime": "2018-11-09T17:57:27.9580188+01:00",
     "Action": "Deposit",
     "IsProcessed": true,
     "InProcess": false
   },
   {
-    "ID": 9691,
-    "User": "biba",
-    "DateAndTime": "2018-11-09T16:17:59.5839134+01:00",
-    "Action": "Withdrawal",
+    "ID": 2094,
+    "User": "Sale",
+    "DateAndTime": "2018-11-09T17:57:39.9381631+01:00",
+    "Action": "AccountInfo",
+    "IsProcessed": true,
+    "InProcess": false
+  },
+  {
+    "ID": 1865,
+    "User": "Sale",
+    "DateAndTime": "2018-11-09T17:58:34.6795768+01:00",
+    "Action": "TakeLoan",
+    "IsProcessed": true,
+    "InProcess": false
+  },
+  {
+    "ID": 4193,
+    "User": "Sale",
+    "DateAndTime": "2018-11-09T17:58:35.9922175+01:00",
+    "Action": "TakeLoan",
+    "IsProcessed": true,
+    "InProcess": false
+  },
+  {
+    "ID": 4481,
+    "User": "Sale",
+    "DateAndTime": "2018-11-09T17:58:35.2733902+01:00",
+    "Action": "TakeLoan",
+    "IsProcessed": true,
+    "InProcess": false
+  },
+  {
+    "ID": 6455,
+    "User": "Sale",
+    "DateAndTime": "2018-11-09T18:00:10.5496944+01:00",
+    "Action": "TakeLoan",
+    "IsProcessed": true,
+    "InProcess": false
+  },
+  {
+    "ID": 1091,
+    "User": "Sale",
+    "DateAndTime": "2018-11-09T18:00:12.1592395+01:00",
+    "Action": "TakeLoan",
     "IsProcessed": true,
     "InProcess": false
   }

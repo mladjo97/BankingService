@@ -259,7 +259,7 @@ namespace BankingService
 
         private bool CheckAuthorization()
         {
-            return ServiceSecurityContext.Current.PrimaryIdentity.Name.Split('=')[2].Equals("User");
+            return ServiceSecurityContext.Current.PrimaryIdentity.Name.Split('=')[2].Contains("User");
         }
 
     }
