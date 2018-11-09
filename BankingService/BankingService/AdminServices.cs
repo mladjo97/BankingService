@@ -1,4 +1,5 @@
-﻿using CommonStuff.ClientContract;
+﻿using AuditManager;
+using CommonStuff.ClientContract;
 using DatabaseLib;
 using System;
 using System.ServiceModel;
@@ -10,9 +11,19 @@ namespace BankingService
     {
         public bool CheckRequests()
         {
+            // log successfull authentication
+            string username = GetUsername();
+            Audit.AuthenticationSuccess(username);
+
             // ako nema prava, vrati false
             if (!CheckAuthorization())
+            {
+                Audit.AuthorizationFailed(username, "CheckRequest", $"{username} is not Admin");
                 return false;
+            }
+
+            // log successfull authorization
+            Audit.AuthorizationSuccess(username, "CheckRequest");
 
             // uzmemo sve zahteve i proveravamo na svakih 10 sekundi da li ima zastarelih
             var allRequests = RequestParser.GetRequests();
@@ -40,9 +51,19 @@ namespace BankingService
 
         public bool CreateDB()
         {
+            // log successfull authentication
+            string username = GetUsername();
+            Audit.AuthenticationSuccess(username);
+
             // ako nema prava, vrati false
             if (!CheckAuthorization())
+            {
+                Audit.AuthorizationFailed(username, "CreateDB", $"{username} is not Admin");
                 return false;
+            }
+
+            // log successfull authorization
+            Audit.AuthorizationSuccess(username, "CreateDB");
 
             RequestParser.CreateDB();
             return true;
@@ -51,6 +72,11 @@ namespace BankingService
         private bool CheckAuthorization()
         {
             return ServiceSecurityContext.Current.PrimaryIdentity.Name.Split('=')[2].Contains("Admin");
+        }
+
+        private string GetUsername()
+        {
+            return ServiceSecurityContext.Current.PrimaryIdentity.Name.Split('=')[1];
         }
     }
 }

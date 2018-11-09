@@ -1,0 +1,42 @@
+[
+  {
+    "ID": 5560,
+    "User": "biba",
+    "DateAndTime": "2018-11-09T16:10:22.3160849+01:00",
+    "Action": "OpenAccount",
+    "IsProcessed": true,
+    "InProcess": false
+  },
+  {
+    "ID": 2340,
+    "User": "biba",
+    "DateAndTime": "2018-11-09T16:10:33.659561+01:00",
+    "Action": "Deposit",
+    "IsProcessed": true,
+    "InProcess": false
+  },
+  {
+    "ID": 6920,
+    "User": "biba",
+    "DateAndTime": "2018-11-09T16:10:42.4418901+01:00",
+    "Action": "OpenAccount",
+    "IsProcessed": true,
+    "InProcess": false
+  },
+  {
+    "ID": 8176,
+    "User": "biba",
+    "DateAndTime": "2018-11-09T16:10:50.4868631+01:00",
+    "Action": "TakeLoan",
+    "IsProcessed": true,
+    "InProcess": false
+  },
+  {
+    "ID": 6190,
+    "User": "biba",
+    "DateAndTime": "2018-11-09T16:11:06.0320703+01:00",
+    "Action": "Withdrawal",
+    "IsProcessed": true,
+    "InProcess": false
+  }
+]

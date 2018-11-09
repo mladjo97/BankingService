@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7A13F478-03D7-4AD2-85F1-6437E975C65D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>BankingService</RootNamespace>
-    <AssemblyName>BankingService</AssemblyName>
+    <ProjectGuid>{DFCC87E5-FD20-4B78-BC50-DF943F497FA2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AuditManager</RootNamespace>
+    <AssemblyName>AuditManager</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -34,8 +33,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.IdentityModel" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,36 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdminServices.cs" />
-    <Compile Include="BankingServices.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Audit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SectorProxy.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AuditManager\AuditManager.csproj">
-      <Project>{DFCC87E5-FD20-4B78-BC50-DF943F497FA2}</Project>
-      <Name>AuditManager</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BankingSectors\BankingSectors.csproj">
-      <Project>{186C1CF9-9A86-4697-9790-0ADB30AD29CC}</Project>
-      <Name>BankingSectors</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CertificationManager\CertificationManager.csproj">
-      <Project>{39A1D8CF-0B51-455C-A7CA-73DE67BB7AAC}</Project>
-      <Name>CertificationManager</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CommonStuff\CommonStuff.csproj">
-      <Project>{d6e4534d-6a82-4ee5-9f7a-82ddaee160a5}</Project>
-      <Name>CommonStuff</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DatabaseLib\DatabaseLib.csproj">
-      <Project>{8f6bdb88-6e72-459e-8088-92f28520ce1e}</Project>
-      <Name>DatabaseLib</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

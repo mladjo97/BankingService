@@ -1,4 +1,5 @@
-﻿using CommonStuff;
+﻿using AuditManager;
+using CommonStuff;
 using CommonStuff.ClientContract;
 using DatabaseLib;
 using DatabaseLib.Classes;
@@ -19,9 +20,18 @@ namespace BankingService
 
         public bool OpenAccount(string username)
         {
+            // log successfull authentication
+            Audit.AuthenticationSuccess(username);
+
             // ako nema prava, vrati false
             if (!CheckAuthorization())
+            {
+                Audit.AuthorizationFailed(username, "OpenAccount", $"{username} is not User");
                 return false;
+            }
+
+            // log successfull authorization
+            Audit.AuthorizationSuccess(username, "OpenAccount");
 
             // napravimo novi zahtev
             Request req = new Request();
@@ -71,9 +81,18 @@ namespace BankingService
 
         public bool TakeLoan(string username, double amount)
         {
+            // log successfull authentication
+            Audit.AuthenticationSuccess(username);
+
             // ako nema prava, vrati false
             if (!CheckAuthorization())
+            {
+                Audit.AuthorizationFailed(username, "TakeLoan", $"{username} is not User");
                 return false;
+            }
+
+            // log successfull authorization
+            Audit.AuthorizationSuccess(username, "TakeLoan");
 
             Request req = new Request();
             req.ID = RequestParser.GetRandomID();
@@ -122,9 +141,18 @@ namespace BankingService
 
         public bool DoTransaction(string username, TransactionType type, double amount)
         {
+            // log successfull authentication
+            Audit.AuthenticationSuccess(username);
+
             // ako nema prava, vrati false
             if (!CheckAuthorization())
+            {
+                Audit.AuthorizationFailed(username, "DoTransaction", $"{username} is not User");
                 return false;
+            }
+
+            // log successfull authorization
+            Audit.AuthorizationSuccess(username, "DoTransaction");
 
             // upise neobradjen zahtev
             Request req = new Request();
@@ -142,7 +170,7 @@ namespace BankingService
             RequestParser.WriteRequest(req);
 
             // postavimo u red korisnika
-            creditQueue.Enqueue(username);
+            transactionQueue.Enqueue(username);
 
             while (true)
             {                
