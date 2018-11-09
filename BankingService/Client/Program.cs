@@ -182,10 +182,10 @@ namespace Client
                                 }
 
                                 // otvori racun                
-                                else if (acc.DoesExsist)
+                                else if (acc.DoesExist)
                                 {
                                     Console.Clear();
-                                    Console.WriteLine("Account Info:\n Username: {0} \nCredit: {1} \nBalance: {2}",username,acc.Credit,acc.Balance);
+                                    Console.WriteLine("Account Info:\n Username: {0} \nCredit: {1} \nBalance: {2}", username, acc.Credit, acc.Balance);
                                 }
                                 else
                                     Console.WriteLine("Fail! Account does not exist.");

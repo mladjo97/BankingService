@@ -238,7 +238,7 @@ namespace BankingService
             {
                 if(item.Owner == username)
                 {
-                    account.DoesExsist = true;
+                    account.DoesExist = true;
                     account.Balance = item.Balance;
                     account.Credit = item.Credit;
                     break;

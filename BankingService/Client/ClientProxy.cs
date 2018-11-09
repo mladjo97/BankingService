@@ -77,11 +77,12 @@ namespace Client
             {
                 account = factory.GetAccountInfo(username);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                Console.WriteLine("Error in GetAccountInfo: {0}", e.Message);
+                return null;
             }
+
             return account;
         }
 

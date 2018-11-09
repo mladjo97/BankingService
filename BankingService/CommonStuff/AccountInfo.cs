@@ -8,13 +8,13 @@ namespace CommonStuff
 {
     public class AccountInfo
     {
-        public bool DoesExsist { get; set; }
+        public bool DoesExist { get; set; }
         public double Balance { get; set; }
         public double Credit { get; set; }
 
         public AccountInfo()
         {
-            DoesExsist = false;
+            DoesExist = false;
             Balance = 0;
             Credit = 0;
         }
