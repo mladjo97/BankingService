@@ -29,9 +29,21 @@ namespace Client
 
             /// uzmemo sertifikat servisa
             X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, srvCertCN);
+            EndpointAddress adminAddress;
+            EndpointAddress clientAddress;
 
-            EndpointAddress adminAddress = new EndpointAddress(new Uri("net.tcp://10.1.212.174:9998/AdminServices"), new X509CertificateEndpointIdentity(srvCert));
-            EndpointAddress clientAddress = new EndpointAddress(new Uri("net.tcp://10.1.212.174:9999/BankingServices"), new X509CertificateEndpointIdentity(srvCert));
+            try
+            {
+                adminAddress = new EndpointAddress(new Uri("net.tcp://localhost:9998/AdminServices"), new X509CertificateEndpointIdentity(srvCert));
+                clientAddress = new EndpointAddress(new Uri("net.tcp://localhost:9999/BankingServices"), new X509CertificateEndpointIdentity(srvCert));
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("[ERROR] You don't have the service certificate installed. \nMessage: {0}", e.Message);
+                Console.WriteLine("Press any key to exit app...");
+                Console.ReadLine();
+                return;
+            }
 
 
             while (check)
