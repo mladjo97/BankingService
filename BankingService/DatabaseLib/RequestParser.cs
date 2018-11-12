@@ -104,7 +104,7 @@ namespace DatabaseLib
             File.WriteAllText(requestDbPath, jsonData);
         }
 
-
+        // zahtev je izvrsen
         public static void MarkProcessed(int id)
         {
             var request = GetRequest(id);
@@ -115,6 +115,7 @@ namespace DatabaseLib
             WriteRequest(request);
         }
 
+        //zahtev se trenutno izvrsava
         public static void MarkInProcess(int id)
         {
             var request = GetRequest(id);
@@ -125,6 +126,7 @@ namespace DatabaseLib
             WriteRequest(request);
         }
 
+        //zahtev se ne izvrsava trenutno
         public static void FinishProcess(int id)
         {
             var request = GetRequest(id);

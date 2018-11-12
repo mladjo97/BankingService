@@ -66,36 +66,68 @@ namespace Client
                         clientCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, username);
                         if (clientCert != null)
                             break;
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("There is no username: {0}",username);
+                        }
 
                     } while (true);
 
                     using (AdminProxy adminProxy = new AdminProxy(binding, adminAddress, clientCert))
                     {
-                        if (adminProxy.CreateDB())
+                        bool secondOut = true;
+                        do
                         {
-                            Console.WriteLine("DB was created.");
-                        }
-                        else
-                        {
-                            Console.WriteLine("DB was not created.");
-                        }
+                            int operation = AdminMenu();
 
-                        while (true)
-                        {
-                            // ako je enter break
-                            try
+                            if (operation == 1)
                             {
-                                if (!adminProxy.CheckRequests())
+                                if (adminProxy.CreateDB())
                                 {
-                                    Console.WriteLine("You cant check requests. Not admin.");
+                                    Console.Clear();
+                                    Console.WriteLine("DB was created.");
+                                }
+                                else
+                                {
+                                    Console.Clear();
+                                    Console.WriteLine("DB was not created.");
                                 }
                             }
-                            catch (Exception e)
+                            else if(operation == 2)
                             {
-                                Console.WriteLine("Error: {0}", e.Message);
-                                break;
+                                while (true)
+                                {
+                                    // ako je enter break
+                                    if(Console.KeyAvailable)
+                                    {
+                                        Console.ReadKey();
+                                        break;
+                                    }
+                                    try
+                                    {
+                                        if (!adminProxy.CheckRequests())
+                                        {
+                                            Console.Clear();
+                                            Console.WriteLine("You cant check requests. Not admin.");
+                                        }
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Console.Clear();
+                                        Console.WriteLine("Error: {0}", e.Message);
+                                        break;
+                                    }
+                                }
                             }
-                        }
+                            else
+                            {
+                                secondOut = false;
+                                Console.WriteLine("Press any key to close the program...");
+                                Console.ReadKey();
+                            }
+                        } while (secondOut);
+
                     }
 
                 }
@@ -289,6 +321,29 @@ namespace Client
                 }
             }
             while (secondOut);
+
+            return int.Parse(opp);
+        }
+
+        static int AdminMenu()
+        {
+            string opp = string.Empty;
+            do
+            {
+                Console.WriteLine("Choose operation:\n1.Create database\n2.Check if there are old requests\n0.To close the program");
+                opp = Console.ReadLine();
+
+                if (opp == "1" || opp == "2" || opp =="0")
+                {
+                    break;
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Error, you didn't enter the right number...Try it again");
+                }
+            }
+            while (true);
 
             return int.Parse(opp);
         }

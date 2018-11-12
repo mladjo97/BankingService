@@ -23,6 +23,7 @@ namespace BankingSectors
 
             account.Credit += amount;
 
+            //upis u JSON fajl (bazu)
             AccountParser.DeleteAccount(username);
             AccountParser.WriteAccount(account);
 
