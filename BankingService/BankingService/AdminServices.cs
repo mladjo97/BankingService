@@ -25,7 +25,7 @@ namespace BankingService
             // log successfull authorization
             Audit.AuthorizationSuccess(username, "CheckRequest");
 
-            // uzmemo sve zahteve i proveravamo na svakih 10 sekundi da li ima zastarelih
+            // uzmemo sve zahteve i proveravamo na svakih 5 sekundi da li ima zastarelih
             var allRequests = RequestParser.GetRequests();
 
             foreach (var request in allRequests)
@@ -42,6 +42,7 @@ namespace BankingService
                         RequestParser.DeleteRequest(request.ID);
                         Console.WriteLine($"Request {request.ID} deleted.");
                         Audit.DatabaseAction(username, $"Deleted request with ID: {request.ID}.");
+                        Console.WriteLine($"{username} deleted request with ID: {request.ID}");
                     }
                 }
             }
@@ -68,6 +69,7 @@ namespace BankingService
 
             RequestParser.CreateDB();
             Audit.DatabaseAction(username, "Created a database for requests.");
+            Console.WriteLine($"{username} created a new database for requests");
 
             return true;
         }

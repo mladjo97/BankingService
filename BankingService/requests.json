@@ -1,0 +1,26 @@
+[
+  {
+    "ID": 7605,
+    "User": "pera",
+    "DateAndTime": "2018-11-12T16:24:01.6624695+01:00",
+    "Action": "OpenAccount",
+    "IsProcessed": true,
+    "InProcess": false
+  },
+  {
+    "ID": 8929,
+    "User": "mikiuser",
+    "DateAndTime": "2018-11-12T16:24:05.3828034+01:00",
+    "Action": "OpenAccount",
+    "IsProcessed": true,
+    "InProcess": false
+  },
+  {
+    "ID": 6733,
+    "User": "Sale",
+    "DateAndTime": "2018-11-12T16:24:06.7400125+01:00",
+    "Action": "OpenAccount",
+    "IsProcessed": true,
+    "InProcess": false
+  }
+]

@@ -40,16 +40,16 @@ namespace BankingService
             req.DateAndTime = DateTime.Now;
             req.Action = RequestAction.OpenAccount;
             req.User = username;
-            req.IsProcessed = false;  
+            req.IsProcessed = false;
             req.InProcess = false;
 
             RequestParser.WriteRequest(req);
-            
+
             // postavimo u red korisnika
-            accountQueue.Enqueue(username);            
+            accountQueue.Enqueue(username);
 
             while (true)
-            {                             
+            {
                 string next = (string)accountQueue.Peek();
                 bool free = sectorProxy.AccountProxy.IsItFree();
 
@@ -71,10 +71,10 @@ namespace BankingService
             RequestParser.MarkInProcess(req.ID);
 
             // posaljemo ga kad se oslobodi i dodje njegov red
-            bool accountResult = sectorProxy.AccountProxy.OpenAccount(username);
             accountQueue.Dequeue();
+            bool accountResult = sectorProxy.AccountProxy.OpenAccount(username);
 
-            RequestParser.MarkProcessed(req.ID);  
+            RequestParser.MarkProcessed(req.ID);
             RequestParser.FinishProcess(req.ID);
 
             return accountResult;
@@ -131,10 +131,10 @@ namespace BankingService
             RequestParser.MarkInProcess(req.ID);
 
             // posaljemo ga kad se oslobodi i dodje njegov red
-            bool creditResult = sectorProxy.CreditProxy.TakeLoan(username, amount);
             creditQueue.Dequeue();
+            bool creditResult = sectorProxy.CreditProxy.TakeLoan(username, amount);
 
-            RequestParser.MarkProcessed(req.ID);  
+            RequestParser.MarkProcessed(req.ID);
             RequestParser.FinishProcess(req.ID);
 
             return creditResult;
@@ -174,7 +174,7 @@ namespace BankingService
             transactionQueue.Enqueue(username);
 
             while (true)
-            {                
+            {
                 string next = (string)transactionQueue.Peek();
                 bool free = sectorProxy.TransactionProxy.IsItFree();
 
@@ -196,8 +196,8 @@ namespace BankingService
             RequestParser.MarkInProcess(req.ID);
 
             // posaljemo ga kad se oslobodi i dodje njegov red
-            bool transactionResult = sectorProxy.TransactionProxy.DoTransaction(username, type, amount);
             transactionQueue.Dequeue();
+            bool transactionResult = sectorProxy.TransactionProxy.DoTransaction(username, type, amount);
 
             RequestParser.MarkProcessed(req.ID);
             RequestParser.FinishProcess(req.ID);
@@ -232,11 +232,11 @@ namespace BankingService
             RequestParser.WriteRequest(req);
 
 
-           AccountInfo account = new AccountInfo();
-           List<Account> accounts =  AccountParser.GetAccounts();
+            AccountInfo account = new AccountInfo();
+            List<Account> accounts = AccountParser.GetAccounts();
             foreach (Account item in accounts)
             {
-                if(item.Owner == username)
+                if (item.Owner == username)
                 {
                     account.DoesExist = true;
                     account.Balance = item.Balance;
@@ -244,6 +244,7 @@ namespace BankingService
                     break;
                 }
             }
+
             return account;
         }
 

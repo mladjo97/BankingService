@@ -28,6 +28,7 @@ namespace Client
             }
             catch (Exception e)
             {
+                Console.Clear();
                 Console.WriteLine($"Error in AdminProxy.CheckRequest(): {e.Message}");
             }
 
@@ -45,6 +46,7 @@ namespace Client
             }
             catch (Exception e)
             {
+                Console.Clear();
                 Console.WriteLine($"Error in AdminProxy.CreateDB(): {e.Message}");
             }
 

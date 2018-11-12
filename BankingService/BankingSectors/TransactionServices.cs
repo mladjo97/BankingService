@@ -1,4 +1,5 @@
-﻿using CommonStuff;
+﻿using AuditManager;
+using CommonStuff;
 using CommonStuff.SectorContracts;
 using DatabaseLib;
 using DatabaseLib.Classes;
@@ -44,6 +45,8 @@ namespace BankingSectors
  
                 AccountParser.DeleteAccount(username);
                 AccountParser.WriteAccount(userAccount);
+
+                Audit.DatabaseAction(username, $"Deposited {amount} into his/hers account.");
             }
             else
             {
@@ -53,16 +56,19 @@ namespace BankingSectors
                     userAccount.Balance -= amount;
                     AccountParser.DeleteAccount(username);
                     AccountParser.WriteAccount(userAccount);
+                    Audit.DatabaseAction(username, $"Withdraw {amount} from his/hers account.");
                 }
                 else
                 {
+                    Thread.Sleep(5000);
+                    IsFree = true;
                     return false; // jer nema dovoljno novca
                 }
             }
 
             Thread.Sleep(5000);
             IsFree = true;
-
+            
             return true;
         }
 

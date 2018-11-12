@@ -1,4 +1,5 @@
-﻿using CommonStuff.SectorContracts;
+﻿using AuditManager;
+using CommonStuff.SectorContracts;
 using DatabaseLib;
 using System.Threading;
 
@@ -26,6 +27,7 @@ namespace BankingSectors
             //upis u JSON fajl (bazu)
             AccountParser.DeleteAccount(username);
             AccountParser.WriteAccount(account);
+            Audit.DatabaseAction(username, $"Took a loan from the bank. Amount: {amount}.");
 
             Thread.Sleep(5000);
             IsFree = true;

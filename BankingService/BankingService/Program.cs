@@ -25,7 +25,7 @@ namespace BankingService
             // pokreni BankingSector
             Process.Start(bankingSectorsPath);
 
-            Console.WriteLine("Press <enter> to stop service...");
+            Console.WriteLine("Press <enter> to stop service...\n");
 
             Console.ReadLine();
             clientServiceHost.Close();

@@ -54,6 +54,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AuditManager\AuditManager.csproj">
+      <Project>{DFCC87E5-FD20-4B78-BC50-DF943F497FA2}</Project>
+      <Name>AuditManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommonStuff\CommonStuff.csproj">
       <Project>{d6e4534d-6a82-4ee5-9f7a-82ddaee160a5}</Project>
       <Name>CommonStuff</Name>

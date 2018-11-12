@@ -1,4 +1,5 @@
-﻿using CommonStuff.SectorContracts;
+﻿using AuditManager;
+using CommonStuff.SectorContracts;
 using DatabaseLib;
 using DatabaseLib.Classes;
 using System;
@@ -22,12 +23,18 @@ namespace BankingSectors
                 var accounts = AccountParser.GetAccounts();
                 foreach (var acc in accounts)
                     if (acc.Owner == username)
+                    {
+                        Thread.Sleep(5000);
+                        IsFree = true;
                         return false;
+                    }
 
                 AccountParser.WriteAccount(newAccount);
+                Audit.DatabaseAction(username, "Opened a new account.");
             }
             catch (Exception)
             {
+                IsFree = true;
                 return false;
             }
 

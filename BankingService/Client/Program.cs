@@ -1,9 +1,8 @@
-﻿using CommonStuff;
-using CertificationManager;
+﻿using CertificationManager;
+using CommonStuff;
 using System;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
-using System.Threading;
 
 namespace Client
 {
@@ -13,7 +12,7 @@ namespace Client
         {
             StartingMenu();
             
-            Console.ReadLine();
+            //Console.ReadLine();
         }
 
 
@@ -34,8 +33,8 @@ namespace Client
 
             try
             {
-                adminAddress = new EndpointAddress(new Uri("net.tcp://localhost:9998/AdminServices"), new X509CertificateEndpointIdentity(srvCert));
-                clientAddress = new EndpointAddress(new Uri("net.tcp://localhost:9999/BankingServices"), new X509CertificateEndpointIdentity(srvCert));
+                adminAddress = new EndpointAddress(new Uri("net.tcp://10.1.212.184:9998/AdminServices"), new X509CertificateEndpointIdentity(srvCert));
+                clientAddress = new EndpointAddress(new Uri("net.tcp://10.1.212.184:9999/BankingServices"), new X509CertificateEndpointIdentity(srvCert));
             }
             catch(Exception e)
             {
@@ -89,8 +88,7 @@ namespace Client
                                     Console.WriteLine("DB was created.");
                                 }
                                 else
-                                {
-                                    Console.Clear();
+                                {                                    
                                     Console.WriteLine("DB was not created.");
                                 }
                             }
@@ -104,12 +102,13 @@ namespace Client
                                         Console.ReadKey();
                                         break;
                                     }
+
                                     try
                                     {
                                         if (!adminProxy.CheckRequests())
-                                        {
-                                            Console.Clear();
-                                            Console.WriteLine("You cant check requests. Not admin.");
+                                        {                                            
+                                            Console.WriteLine("You cant check requests.");
+                                            break;
                                         }
                                     }
                                     catch (Exception e)
@@ -125,6 +124,7 @@ namespace Client
                                 secondOut = false;
                                 Console.WriteLine("Press any key to close the program...");
                                 Console.ReadKey();
+                                return;
                             }
                         } while (secondOut);
 
@@ -150,8 +150,13 @@ namespace Client
                             clientCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, username);
                             if (clientCert != null)
                                 break;
+                            else
+                            {
+                                Console.Clear();
+                                Console.WriteLine("There is no username: {0}", username);
+                            }
 
-                        } while (true);
+                    } while (true);
 
                     while (true)
                     {
@@ -165,7 +170,6 @@ namespace Client
                                 using (ClientProxy proxy = new ClientProxy(binding, clientAddress, clientCert))
                                 {
 
-
                                     // otvori racun                
                                     if (proxy.OpenAccount(username))
                                     {
@@ -173,14 +177,15 @@ namespace Client
                                         Console.WriteLine("Success! Account opened.");
                                     }
                                     else
+                                    {
+                                        Console.Clear();
                                         Console.WriteLine("Fail! Account was not opened.");
+                                    }
                                 }
                             }
                             catch (Exception e)
                             {
-
                                 Console.WriteLine("Error, {0}", e.Message);
-
                             }
 
                         }
@@ -193,6 +198,7 @@ namespace Client
                                     // Credit
                                     Console.WriteLine("Enter the amount you want:");
                                     string amount = Console.ReadLine();
+
                                     if (proxy.TakeLoan(username, double.Parse(amount)))
                                     {
                                         Console.Clear();
@@ -200,20 +206,21 @@ namespace Client
 
                                     }
                                     else
+                                    {
+                                        Console.Clear();
                                         Console.WriteLine("Fail! Loan was not approved.");
+                                    }
                                 }
                             }
                             catch (Exception e)
                             {
-
                                 Console.WriteLine("Error, {0}", e.Message);
                             }
-
                         }
                         else if (operation == 0)
                         {
                             Console.WriteLine("Press any key to close the program...");
-                            break;
+                            return;
                         }
                         else if(operation == 9)
                         {
@@ -234,13 +241,17 @@ namespace Client
                                         Console.WriteLine("Account Info:\n Username: {0} \nCredit: {1} \nBalance: {2}", username, acc.Credit, acc.Balance);
                                     }
                                     else
+                                    {
+                                        Console.Clear();
                                         Console.WriteLine("Fail! Account does not exist.");
+                                    }
                                 }
                             }
                             catch (Exception e)
                             {
-
-                                Console.WriteLine("Error,{0}",e.Message);
+                                Console.Clear();
+                                Console.WriteLine("You don't have the verified CA for this service.");
+                                Console.WriteLine("Error: {0}",e.Message);
                             }
                             
                         }
@@ -266,7 +277,10 @@ namespace Client
 
                                 }
                                 else
+                                {
+                                    Console.Clear();
                                     Console.WriteLine("Fail! You were unable to do the Transaction");
+                                }
                             }
                         }
                     }
