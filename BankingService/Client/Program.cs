@@ -27,14 +27,14 @@ namespace Client
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
             /// uzmemo sertifikat servisa
-            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, srvCertCN);
+            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
             EndpointAddress adminAddress;
             EndpointAddress clientAddress;
 
             try
             {
-                adminAddress = new EndpointAddress(new Uri("net.tcp://10.1.212.184:9998/AdminServices"), new X509CertificateEndpointIdentity(srvCert));
-                clientAddress = new EndpointAddress(new Uri("net.tcp://10.1.212.184:9999/BankingServices"), new X509CertificateEndpointIdentity(srvCert));
+                adminAddress = new EndpointAddress(new Uri("net.tcp://localhost:9998/AdminServices"), new X509CertificateEndpointIdentity(srvCert));
+                clientAddress = new EndpointAddress(new Uri("net.tcp://localhost:9999/BankingServices"), new X509CertificateEndpointIdentity(srvCert));
             }
             catch(Exception e)
             {
@@ -114,7 +114,7 @@ namespace Client
                                     catch (Exception e)
                                     {
                                         Console.Clear();
-                                        Console.WriteLine("Error: {0}", e.Message);
+                                        Console.WriteLine("Error in ClientCheckMessage. Message: {0}", e.Message);
                                         break;
                                     }
                                 }
@@ -185,7 +185,7 @@ namespace Client
                             }
                             catch (Exception e)
                             {
-                                Console.WriteLine("Error, {0}", e.Message);
+                                Console.WriteLine("Error in ClientOpenAccount. Message:", e.Message);
                             }
 
                         }
@@ -214,7 +214,7 @@ namespace Client
                             }
                             catch (Exception e)
                             {
-                                Console.WriteLine("Error, {0}", e.Message);
+                                Console.WriteLine("Error in ClientCredit. Message: {0}", e.Message);
                             }
                         }
                         else if (operation == 0)
@@ -231,19 +231,19 @@ namespace Client
                                     AccountInfo acc = proxy.GetAccountInfo(username);
                                     if (acc == null)
                                     {
-                                        Console.WriteLine("Fail! You dont have the permision");
+                                        Console.WriteLine("Fail! You dont have the permision\n");
                                     }
 
                                     // otvori racun                
                                     else if (acc.DoesExist)
                                     {
                                         Console.Clear();
-                                        Console.WriteLine("Account Info:\n Username: {0} \nCredit: {1} \nBalance: {2}", username, acc.Credit, acc.Balance);
+                                        Console.WriteLine("Account Info:\nUsername: {0} \nCredit: {1} \nBalance: {2} \n", username, acc.Credit, acc.Balance);
                                     }
                                     else
                                     {
                                         Console.Clear();
-                                        Console.WriteLine("Fail! Account does not exist.");
+                                        Console.WriteLine("Fail! Account does not exist.\n");
                                     }
                                 }
                             }
@@ -251,7 +251,7 @@ namespace Client
                             {
                                 Console.Clear();
                                 Console.WriteLine("You don't have the verified CA for this service.");
-                                Console.WriteLine("Error: {0}",e.Message);
+                                Console.WriteLine("Error in ClientGetInfo. Message: {0}", e.Message);
                             }
                             
                         }

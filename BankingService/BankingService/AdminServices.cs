@@ -25,6 +25,7 @@ namespace BankingService
             // log successfull authorization
             Audit.AuthorizationSuccess(username, "CheckRequest");
 
+            Console.WriteLine($"[ADMIN Service] {username} is checking the database for old requests.");
             // uzmemo sve zahteve i proveravamo na svakih 5 sekundi da li ima zastarelih
             var allRequests = RequestParser.GetRequests();
 
@@ -47,7 +48,7 @@ namespace BankingService
                 }
             }
 
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
             return true;
         }
 
